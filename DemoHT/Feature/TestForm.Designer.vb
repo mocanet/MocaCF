@@ -1,0 +1,74 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class TestForm
+    Inherits Moca.Win.ChildForm
+
+    'フォームがコンポーネントの一覧をクリーンアップするために dispose をオーバーライドします。
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        If disposing AndAlso components IsNot Nothing Then
+            components.Dispose()
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+
+    'Windows フォーム デザイナで必要です。
+    Private components As System.ComponentModel.IContainer
+
+    'メモ: 以下のプロシージャは Windows フォーム デザイナで必要です。
+    'Windows フォーム デザイナを使用して変更できます。
+    'コード エディタを使って変更しないでください。
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.ComboBoxEx1 = New Moca.Win.ComboBoxEx
+        Me.TextBoxEx1 = New Moca.Win.TextBoxEx
+        Me.ActionButton1 = New Moca.Win.ActionButton
+        Me.pnlContents.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'pnlContents
+        '
+        Me.pnlContents.Controls.Add(Me.ComboBoxEx1)
+        Me.pnlContents.Controls.Add(Me.TextBoxEx1)
+        Me.pnlContents.Controls.Add(Me.ActionButton1)
+        Me.pnlContents.Size = New System.Drawing.Size(238, 295)
+        '
+        'ComboBoxEx1
+        '
+        Me.ComboBoxEx1.Location = New System.Drawing.Point(16, 78)
+        Me.ComboBoxEx1.Name = "ComboBoxEx1"
+        Me.ComboBoxEx1.Size = New System.Drawing.Size(181, 23)
+        Me.ComboBoxEx1.TabIndex = 5
+        '
+        'TextBoxEx1
+        '
+        Me.TextBoxEx1.BottomBorderColor = System.Drawing.Color.Empty
+        Me.TextBoxEx1.Location = New System.Drawing.Point(16, 129)
+        Me.TextBoxEx1.Name = "TextBoxEx1"
+        Me.TextBoxEx1.Size = New System.Drawing.Size(206, 23)
+        Me.TextBoxEx1.TabIndex = 4
+        Me.TextBoxEx1.TextChangedCompleteDelay = 0
+        '
+        'ActionButton1
+        '
+        Me.ActionButton1.Location = New System.Drawing.Point(16, 158)
+        Me.ActionButton1.Name = "ActionButton1"
+        Me.ActionButton1.Size = New System.Drawing.Size(168, 59)
+        Me.ActionButton1.TabIndex = 3
+        Me.ActionButton1.Text = "ActionButton1"
+        '
+        'TestForm
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
+        Me.ClientSize = New System.Drawing.Size(238, 295)
+        Me.Name = "TestForm"
+        Me.Text = "Test Form"
+        Me.pnlContents.ResumeLayout(False)
+        Me.ResumeLayout(False)
+
+    End Sub
+    Friend WithEvents ComboBoxEx1 As Moca.Win.ComboBoxEx
+    Friend WithEvents TextBoxEx1 As Moca.Win.TextBoxEx
+    Friend WithEvents ActionButton1 As Moca.Win.ActionButton
+
+End Class

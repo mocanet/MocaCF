@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Moca.Win.ActionButton" Collapsed="true">
+    <Position X="7.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IABAAAAAAAAAAAABAAAAAAAIAAAAABAAgAAAAAAAAAA=</HashCode>
+      <FileName>UI\Controls\ActionButton.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Moca.Win.ComboBoxEx" Collapsed="true">
+    <Position X="7.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\Controls\ComboBoxEx.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Moca.Win.DataGridEx" Collapsed="true">
+    <Position X="7.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAACAAAgAAAEAAAEAAEAAQAAACAAAmAggAQAA=</HashCode>
+      <FileName>UI\Controls\DataGridEx.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Moca.Win.LabelEx" Collapsed="true">
+    <Position X="9.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACIAAAIACAAEgAAQACAAAACAIAAEAAAAAAAAAAAgAA=</HashCode>
+      <FileName>UI\Controls\LabelEx.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Moca.Win.NumericUpDownEx" Collapsed="true">
+    <Position X="9.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>oAAAAAAAACAAAAAAAAAAAACAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>UI\Controls\NumericUpDownEx.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Moca.Win.TextBoxEx" Collapsed="true">
+    <Position X="9.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>oABIAAAAICAgEAgARACAAACCAAACEAAAAAAAAAAAFEA=</HashCode>
+      <FileName>UI\Controls\TextBoxEx.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Moca.Win.ChildForm" Collapsed="true">
+    <Position X="2" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAACAACACEQACAEAACRAAAAAAAAQAAQACEAQA=</HashCode>
+      <FileName>UI\Forms\ChildForm.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Moca.Win.CoreForm" Collapsed="true">
+    <Position X="3.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QBAAAABAACgABAIAAAGAAAACQAAAAEBABAQAEwAAAEA=</HashCode>
+      <FileName>UI\Forms\CoreForm.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Moca.Win.MainForm" Collapsed="true">
+    <Position X="4.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAIABAAACBAgBAAAACAgQECAAAAACAAAAABAACAAAg=</HashCode>
+      <FileName>UI\Forms\MainForm.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Moca.Win.AlertMessage" Collapsed="true">
+    <Position X="7.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAaAQIAIAAAIAQIBAMBCQgACQgCCIAGJAEIwCEpGAAE=</HashCode>
+      <FileName>UI\Controls\AlertMessage.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="メイリオ" Size="9" />
+</ClassDiagram>
