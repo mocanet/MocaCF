@@ -83,6 +83,15 @@ Namespace Win
 
 #End Region
 
+        Protected Overrides Sub OnShown(ByVal e As System.EventArgs)
+            MyBase.OnShown(e)
+
+            If StartFocusControl Is Nothing Then
+                Return
+            End If
+            StartFocusControl.Focus()
+        End Sub
+
 #Region " Handles "
 
         Private Sub ChildForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load

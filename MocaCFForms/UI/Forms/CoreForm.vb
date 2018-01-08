@@ -54,6 +54,10 @@ Namespace Win
                 Return
             End If
 
+            Debug.WriteLine(Me.GetType.Name & " OnLoad")
+            _isLoaded = True
+            _isShown = False
+
             Me.Icon = CoreSettings.Instance.Icon
             Me.ForeColor = CoreSettings.Instance.DesignValue(DesignSettingKeys.PrimaryTextColor)
             Me.BackColor = CoreSettings.Instance.DesignValue(DesignSettingKeys.BackColor)
@@ -61,7 +65,31 @@ Namespace Win
             setControlStyle(Me.Controls)
 
             MyBase.OnLoad(e)
+        End Sub
 
+        Private _isLoaded As Boolean
+        Private _isShown As Boolean
+
+        Protected Overrides Sub OnActivated(ByVal e As System.EventArgs)
+            MyBase.OnActivated(e)
+
+            If Not _isLoaded Then
+                Return
+            End If
+            If _isShown Then
+                Return
+            End If
+
+            Debug.WriteLine(Me.GetType.Name & " OnActivated")
+
+            _isShown = True
+            _isLoaded = False
+            OnShown(New EventArgs())
+        End Sub
+        Public Event Shown(ByVal sender As Object, ByVal e As EventArgs)
+
+        Protected Overridable Sub OnShown(ByVal e As EventArgs)
+            RaiseEvent Shown(Me, e)
         End Sub
 
 #End Region

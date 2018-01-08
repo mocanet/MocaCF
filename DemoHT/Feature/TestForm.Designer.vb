@@ -34,26 +34,26 @@ Partial Class TestForm
         '
         'ComboBoxEx1
         '
-        Me.ComboBoxEx1.Location = New System.Drawing.Point(16, 78)
+        Me.ComboBoxEx1.Location = New System.Drawing.Point(16, 211)
         Me.ComboBoxEx1.Name = "ComboBoxEx1"
         Me.ComboBoxEx1.Size = New System.Drawing.Size(181, 23)
-        Me.ComboBoxEx1.TabIndex = 5
+        Me.ComboBoxEx1.TabIndex = 2
         '
         'TextBoxEx1
         '
         Me.TextBoxEx1.BottomBorderColor = System.Drawing.Color.Empty
-        Me.TextBoxEx1.Location = New System.Drawing.Point(16, 129)
+        Me.TextBoxEx1.Location = New System.Drawing.Point(16, 117)
         Me.TextBoxEx1.Name = "TextBoxEx1"
         Me.TextBoxEx1.Size = New System.Drawing.Size(206, 23)
-        Me.TextBoxEx1.TabIndex = 4
+        Me.TextBoxEx1.TabIndex = 0
         Me.TextBoxEx1.TextChangedCompleteDelay = 0
         '
         'ActionButton1
         '
-        Me.ActionButton1.Location = New System.Drawing.Point(16, 158)
+        Me.ActionButton1.Location = New System.Drawing.Point(16, 146)
         Me.ActionButton1.Name = "ActionButton1"
         Me.ActionButton1.Size = New System.Drawing.Size(168, 59)
-        Me.ActionButton1.TabIndex = 3
+        Me.ActionButton1.TabIndex = 1
         Me.ActionButton1.Text = "ActionButton1"
         '
         'TestForm

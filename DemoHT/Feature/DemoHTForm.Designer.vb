@@ -20,18 +20,11 @@ Partial Class DemoHTForm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.AlertMessage31 = New Moca.Win.AlertMessage
-        Me.pnlMain.SuspendLayout()
-        Me.pnlMenu.SuspendLayout()
         Me.SuspendLayout()
         '
         'pnlMain
         '
         Me.pnlMain.Size = New System.Drawing.Size(238, 295)
-        '
-        'pnlMenu
-        '
-        Me.pnlMenu.Controls.Add(Me.AlertMessage31)
-        Me.pnlMenu.Size = New System.Drawing.Size(238, 295)
         '
         'AlertMessage31
         '
@@ -43,7 +36,7 @@ Partial Class DemoHTForm
         Me.AlertMessage31.ErrorBackColor = System.Drawing.Color.FromArgb(CType(CType(220, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.AlertMessage31.ErrorForeColor = System.Drawing.Color.White
         Me.AlertMessage31.Font = New System.Drawing.Font("Arial", 14.0!, System.Drawing.FontStyle.Bold)
-        Me.AlertMessage31.FullClickClose = True
+        Me.AlertMessage31.FullClickClose = False
         Me.AlertMessage31.Location = New System.Drawing.Point(0, 0)
         Me.AlertMessage31.Name = "AlertMessage31"
         Me.AlertMessage31.Size = New System.Drawing.Size(238, 57)
@@ -60,8 +53,6 @@ Partial Class DemoHTForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.ClientSize = New System.Drawing.Size(238, 295)
         Me.Name = "DemoHTForm"
-        Me.pnlMain.ResumeLayout(False)
-        Me.pnlMenu.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub

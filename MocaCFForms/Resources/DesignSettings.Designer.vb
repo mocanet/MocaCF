@@ -196,6 +196,15 @@ Namespace My.Resources
             End Get
         End Property
         
+        '''<summary>
+        '''  0, 120, 215 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend Shared ReadOnly Property FormBorderColor() As String
+            Get
+                Return ResourceManager.GetString("FormBorderColor", resourceCulture)
+            End Get
+        End Property
+        
         Friend Shared ReadOnly Property ImgUser() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("ImgUser", resourceCulture)

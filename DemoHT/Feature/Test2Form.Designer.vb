@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class MenuForm
+Partial Class Test2Form
     Inherits Moca.Win.ChildForm
 
     'フォームがコンポーネントの一覧をクリーンアップするために dispose をオーバーライドします。
@@ -19,67 +19,58 @@ Partial Class MenuForm
     'コード エディタを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.ActionButton1 = New Moca.Win.ActionButton
-        Me.ActionButton2 = New Moca.Win.ActionButton
-        Me.ActionButton3 = New Moca.Win.ActionButton
         Me.TextBoxEx1 = New Moca.Win.TextBoxEx
+        Me.TextBoxEx2 = New Moca.Win.TextBoxEx
+        Me.TextBoxEx3 = New Moca.Win.TextBoxEx
         Me.pnlContents.SuspendLayout()
         Me.SuspendLayout()
         '
         'pnlContents
         '
+        Me.pnlContents.Controls.Add(Me.TextBoxEx3)
+        Me.pnlContents.Controls.Add(Me.TextBoxEx2)
         Me.pnlContents.Controls.Add(Me.TextBoxEx1)
-        Me.pnlContents.Controls.Add(Me.ActionButton3)
-        Me.pnlContents.Controls.Add(Me.ActionButton2)
-        Me.pnlContents.Controls.Add(Me.ActionButton1)
         Me.pnlContents.Size = New System.Drawing.Size(238, 295)
-        '
-        'ActionButton1
-        '
-        Me.ActionButton1.Location = New System.Drawing.Point(29, 80)
-        Me.ActionButton1.Name = "ActionButton1"
-        Me.ActionButton1.Size = New System.Drawing.Size(180, 38)
-        Me.ActionButton1.TabIndex = 1
-        Me.ActionButton1.Text = "Test Form"
-        '
-        'ActionButton2
-        '
-        Me.ActionButton2.Location = New System.Drawing.Point(29, 128)
-        Me.ActionButton2.Name = "ActionButton2"
-        Me.ActionButton2.Size = New System.Drawing.Size(180, 38)
-        Me.ActionButton2.TabIndex = 2
-        Me.ActionButton2.Text = "ActionButton2"
-        '
-        'ActionButton3
-        '
-        Me.ActionButton3.Location = New System.Drawing.Point(29, 172)
-        Me.ActionButton3.Name = "ActionButton3"
-        Me.ActionButton3.Size = New System.Drawing.Size(180, 38)
-        Me.ActionButton3.TabIndex = 3
-        Me.ActionButton3.Text = "ActionButton3"
         '
         'TextBoxEx1
         '
         Me.TextBoxEx1.BottomBorderColor = System.Drawing.Color.Empty
-        Me.TextBoxEx1.Location = New System.Drawing.Point(29, 33)
+        Me.TextBoxEx1.Location = New System.Drawing.Point(64, 65)
         Me.TextBoxEx1.Name = "TextBoxEx1"
-        Me.TextBoxEx1.Size = New System.Drawing.Size(180, 23)
+        Me.TextBoxEx1.Size = New System.Drawing.Size(100, 23)
         Me.TextBoxEx1.TabIndex = 0
         Me.TextBoxEx1.TextChangedCompleteDelay = 0
         '
-        'MenuForm
+        'TextBoxEx2
+        '
+        Me.TextBoxEx2.BottomBorderColor = System.Drawing.Color.Empty
+        Me.TextBoxEx2.Location = New System.Drawing.Point(64, 94)
+        Me.TextBoxEx2.Name = "TextBoxEx2"
+        Me.TextBoxEx2.Size = New System.Drawing.Size(100, 23)
+        Me.TextBoxEx2.TabIndex = 1
+        Me.TextBoxEx2.TextChangedCompleteDelay = 0
+        '
+        'TextBoxEx3
+        '
+        Me.TextBoxEx3.BottomBorderColor = System.Drawing.Color.Empty
+        Me.TextBoxEx3.Location = New System.Drawing.Point(64, 123)
+        Me.TextBoxEx3.Name = "TextBoxEx3"
+        Me.TextBoxEx3.Size = New System.Drawing.Size(100, 23)
+        Me.TextBoxEx3.TabIndex = 2
+        Me.TextBoxEx3.TextChangedCompleteDelay = 0
+        '
+        'Test2Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.ClientSize = New System.Drawing.Size(238, 295)
-        Me.Name = "MenuForm"
+        Me.Name = "Test2Form"
         Me.pnlContents.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents ActionButton1 As Moca.Win.ActionButton
-    Friend WithEvents ActionButton3 As Moca.Win.ActionButton
-    Friend WithEvents ActionButton2 As Moca.Win.ActionButton
     Friend WithEvents TextBoxEx1 As Moca.Win.TextBoxEx
+    Friend WithEvents TextBoxEx3 As Moca.Win.TextBoxEx
+    Friend WithEvents TextBoxEx2 As Moca.Win.TextBoxEx
 
 End Class

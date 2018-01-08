@@ -2,7 +2,14 @@
 
     Private _menuForm As MenuForm = New MenuForm
 
+#Region " log4net "
+    ''' <summary>log4net logger</summary>
+    Private ReadOnly _mylog As log4net.ILog = log4net.LogManager.GetLogger(GetType(DemoHTForm))
+#End Region
+
     Private Sub DemoHTForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        _mylog.Info("start !!")
+
         AlertMessage31.FullClickClose = True
         AlertMessage31.AutoCloseSecond = 4
         AlertMessage31.Warn("テスト！")

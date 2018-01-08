@@ -3,6 +3,8 @@ Imports System.Windows.Forms
 Imports System.ComponentModel
 Imports System.Drawing
 
+Imports System.Runtime.CompilerServices
+
 
 Namespace Win
 
@@ -12,8 +14,6 @@ Namespace Win
     ''' <remarks></remarks>
     Public Class ActionButton
         Inherits Button
-
-        Private _flg As Boolean
 
 #Region " コンストラクタ "
 
@@ -33,11 +33,19 @@ Namespace Win
 
 #End Region
 
+
+        Public Sub PerformClick()
+            If Not Visible Then
+                Return
+            End If
+            Focus()
+            OnClick(New EventArgs)
+        End Sub
+
         ''' <summary>
         ''' Visible=false でも Click イベントを実行します。
         ''' </summary>
         Public Sub DoClick()
-            Focus()
             OnClick(New EventArgs)
         End Sub
 
@@ -49,12 +57,21 @@ Namespace Win
         Protected Overrides Sub OnGotFocus(ByVal e As System.EventArgs)
             MyBase.OnGotFocus(e)
             _drawRect(Me, True)
+            '_backColor = Me.BackColor
+            'BackColor = _lighten(_backColor, 0.6)
         End Sub
 
         Protected Overrides Sub OnLostFocus(ByVal e As System.EventArgs)
             MyBase.OnLostFocus(e)
             _drawRect(Me, False)
+            'BackColor = _backColor
         End Sub
+
+        'Private _backColor As Color
+
+        'Private Function _lighten(ByVal c As Color, ByVal percent As Single) As Color
+        '    Return Color.FromArgb(CInt(c.R * percent), CInt(c.G * percent), c.B)
+        'End Function
 
         Private Sub _drawRect(ByVal control As Control, ByVal drawmode As Boolean)
             Dim graph As Graphics = Nothing

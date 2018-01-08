@@ -416,6 +416,10 @@ Namespace Win
             Me.ForeColor = labelForeColor
             Me.Text = String.Format(msg, args)
 
+            If Me.Parent Is Nothing Then
+                Return
+            End If
+
             _animateWindow.Slide(Me, _DirectionType)
 
             Me.Refresh()

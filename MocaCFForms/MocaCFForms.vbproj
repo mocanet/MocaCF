@@ -23,7 +23,7 @@
     <NativePlatformName>Windows CE</NativePlatformName>
     <FormFactorID>
     </FormFactorID>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -55,6 +55,14 @@
     <NoConfig>true</NoConfig>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BackgroundWorker, Version=1.0.0.2, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\BackgroundWorker.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Packages\log4net.2.0.0\lib\net20-cf\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -77,6 +85,8 @@
   <ItemGroup>
     <Compile Include="Core\CoreSettings.vb" />
     <Compile Include="Core\Declare.vb" />
+    <Compile Include="UI\FormAction.vb" />
+    <Compile Include="UI\IFormAction.vb" />
     <Compile Include="Core\PInvoke.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
@@ -138,6 +148,12 @@
     <Compile Include="UI\Controls\DataGridExTextBoxColumn.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Controls\ErrorProvider.Designer.vb">
+      <DependentUpon>ErrorProvider.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\ErrorProvider.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\LabelEx.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -148,6 +164,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Forms\Args\ChildFormArgs.vb" />
+    <Compile Include="UI\Forms\Args\ProgressWindowEventArgs.vb" />
     <Compile Include="UI\Forms\ChildForm.Designer.vb">
       <DependentUpon>ChildForm.vb</DependentUpon>
     </Compile>
@@ -164,6 +181,13 @@
       <DependentUpon>MainForm.vb</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\MainForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ProgressWindow.vb" />
+    <Compile Include="UI\Forms\ProgressWindowForm.Designer.vb">
+      <DependentUpon>ProgressWindowForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\ProgressWindowForm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\FormValidator.vb" />
@@ -208,6 +232,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\MainForm.resx">
       <DependentUpon>MainForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\ProgressWindowForm.resx">
+      <DependentUpon>ProgressWindowForm.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

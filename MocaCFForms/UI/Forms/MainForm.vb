@@ -44,7 +44,6 @@ Namespace Win
 
             Dim sz As Drawing.Size = CoreSettings.Instance.DesignValue(DesignSettingKeys.DefaultWindowSize)
             setWindowSize(sz)
-
         End Sub
 
 #End Region
@@ -101,7 +100,15 @@ Namespace Win
 
             _actionLoad()
 
+            Show()
+            Application.DoEvents()
+
             pnlMain.Focus()
+            If DefaultChildForm IsNot Nothing Then
+                If DefaultChildForm.StartFocusControl IsNot Nothing Then
+                    DefaultChildForm.StartFocusControl.Focus()
+                End If
+            End If
 
             MyBase.OnLoad(e)
         End Sub
@@ -117,6 +124,26 @@ Namespace Win
             _actionFormClosing(e)
         End Sub
 
+        'Protected Overrides Sub OnShown(ByVal e As System.EventArgs)
+        '    MyBase.OnShown(e)
+
+        '    pnlMain.Focus()
+
+        '    If DefaultChildForm IsNot Nothing Then
+        '        If DefaultChildForm.StartFocusControl IsNot Nothing Then
+        '            DefaultChildForm.StartFocusControl.Focus()
+        '        End If
+        '    End If
+        'End Sub
+
+        'Protected Overridable Sub OnShown(ByVal e As EventArgs)
+        '    If DefaultChildForm IsNot Nothing Then
+        '        If DefaultChildForm.StartFocusControl IsNot Nothing Then
+        '            DefaultChildForm.StartFocusControl.Focus()
+        '        End If
+        '    End If
+        'End Sub
+
 #End Region
 
 #Region " Action "
@@ -126,8 +153,6 @@ Namespace Win
         ''' </summary>
         ''' <remarks></remarks>
         Private Sub _actionLoad()
-            'Me.setControlStyle(pnlMain.Controls)
-
             Me.Text = CoreSettings.Instance.Title
 
             Me.pnlMain.BackColor = CoreSettings.Instance.DesignValue(DesignSettingKeys.ContentColor)
@@ -264,7 +289,6 @@ Namespace Win
                 child.OwnerForm = Me
                 child.Visible = True
                 child.Visible = False
-                pnlMenu.Visible = False
                 pnlMain.Controls.Add(child.pnlContents)
                 Me.Text = String.Format(CoreSettings.Instance.WindowTitle, CoreSettings.Instance.Title, child.Text)
                 Me.ShortCutKeys = child.ShortCutKeys
@@ -292,11 +316,6 @@ Namespace Win
 
             Try
                 Me.pnlMain.Visible = False
-                Me.pnlMenu.Visible = False
-                'If _childForm IsNot Nothing Then
-                '    _childForm.Close()
-                '    _childForm = Nothing
-                'End If
                 If Not Me.pnlMain.Controls.Contains(DefaultChildForm) Then
                     DefaultChildForm.Dock = DockStyle.Fill
                     DefaultChildForm.Width = Me.pnlMain.Width
@@ -305,16 +324,14 @@ Namespace Win
                     DefaultChildForm.Visible = True
                     DefaultChildForm.Visible = False
                     Me.pnlMain.Controls.Add(DefaultChildForm.pnlContents)
-                    'Me.Text = String.Format(CoreSettings.Instance.WindowTitle, CoreSettings.Instance.Title, DefaultChildForm.Text)
+                    Me.Text = String.Format(CoreSettings.Instance.WindowTitle, CoreSettings.Instance.Title, DefaultChildForm.Text)
                     Me.ShortCutKeys = DefaultChildForm.ShortCutKeys
                 End If
-                DefaultChildForm.Visible = True
-                DefaultChildForm.Visible = False
+                DefaultChildForm.pnlContents.Visible = True
                 DefaultChildForm.BringToFront()
-                'AlertMessage1.BringToFront()
             Finally
                 Me.pnlMain.Visible = True
-                If DefaultChildForm IsNot Nothing AndAlso DefaultChildForm.StartFocusControl IsNot Nothing Then
+                If DefaultChildForm.StartFocusControl IsNot Nothing Then
                     DefaultChildForm.StartFocusControl.Focus()
                 End If
             End Try
@@ -366,9 +383,6 @@ Namespace Win
             End If
 
             Me.Text = CoreSettings.Instance.Title
-
-            pnlMenu.Visible = True
-            pnlMenu.Focus()
 
             ShowDefaultChildForm()
 

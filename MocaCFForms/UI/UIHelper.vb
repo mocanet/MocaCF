@@ -29,6 +29,10 @@ Namespace Win
             Return MessageBox.Show(msg, CoreSettings.Instance.Title, buttons, MessageBoxIcon.Question, defaultButton)
         End Function
 
+        Public Shared Function ShowErrorMessageBox(ByVal owner As Form, ByVal message As String, ByVal ex As Exception) As DialogResult
+            Return ShowErrorMessageBox(owner, message, New String() {ex.Message})
+        End Function
+
         ''' <summary>
         ''' エラーメッセージボックス表示
         ''' </summary>

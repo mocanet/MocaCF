@@ -40,6 +40,9 @@ Public Enum DesignSettingKeys As Integer
 
     btnLogoffBackColor
     btnLogoffForeColor
+
+    FormBorderColor
+    HeaderFont
 End Enum
 
 #End Region

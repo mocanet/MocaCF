@@ -16,6 +16,12 @@ Namespace Util
         ''' <summary>正規表現のメタ文字集配列</summary>
         Private Shared _regexMeata() As String = C_REGEX_META.Split(CChar(","))
 
+        Public Shared ReadOnly Property AppPath() As String
+            Get
+                Return System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)
+            End Get
+        End Property
+
         ''' <summary>
         ''' 指定されたフォルダが存在するかを判定する
         ''' </summary>
