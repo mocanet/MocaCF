@@ -10,18 +10,20 @@ Namespace Win
     Public Class ApplicationExceptionListener
         Implements IApplicationExceptionListener
 
+#Region " log4net "
+        ''' <summary>log4net logger</summary>
+        Private ReadOnly _mylog As Global.log4net.ILog = Global.log4net.LogManager.GetLogger(GetType(ApplicationExceptionListener))
+#End Region
+
         ''' <summary>
         ''' アプリケーションでキャッチしきれていない例外が発生
         ''' </summary>
         ''' <param name="ex">対象の例外</param>
         ''' <remarks></remarks>
         Public Sub ApplicationException(ByVal ex As System.Exception) Implements IApplicationExceptionListener.ApplicationException
-            Dim msg As String
-            msg = My.Resources.Messages.E000
-            msg &= vbCrLf
-            msg &= vbCrLf
-            msg &= ex.Message
-            UIHelper.ShowErrorMessageBox(Nothing, My.Resources.Messages.E000, New String() {ex.Message})
+            UIHelper.ShowErrorMessageBox(My.Resources.Messages.E000, New String() {ex.Message})
+
+            _mylog.Error(ex)
 
             ' 強制終了
             Application.Exit()

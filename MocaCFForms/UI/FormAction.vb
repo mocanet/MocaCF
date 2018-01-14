@@ -51,28 +51,6 @@ Namespace Win
 #Region " カーソル変更あり "
 
         ''' <summary>
-        ''' 通常のイベントの引数を使用したメソッド実行
-        ''' </summary>
-        ''' <param name="cmd"></param>
-        ''' <param name="sender"></param>
-        ''' <param name="e"></param>
-        ''' <remarks></remarks>
-        Private Sub Execute(ByVal cmd As FormActionEventCallback, ByVal sender As Object, ByVal e As System.EventArgs) Implements IFormAction.Execute
-            Try
-                Cursor.Current = Cursors.WaitCursor
-                SuspendLayout()
-
-                cmd(sender, e)
-            Catch ex As Exception
-                UIHelper.ShowErrorMessageBox(OwnerForm, My.Resources.Messages.E000, ex)
-                _mylog.Error(ex)
-            Finally
-                ResumeLayout()
-                Cursor.Current = Cursors.Default
-            End Try
-        End Sub
-
-        ''' <summary>
         ''' 引数無しのメソッド実行時
         ''' </summary>
         ''' <param name="cmd"></param>
@@ -103,7 +81,7 @@ Namespace Win
                     If Frm.IsUpdate Then
                         ' 確認
                         caption = IIf(String.IsNullOrEmpty(caption), "検索", caption)
-                        If UIHelper.ShowQuestionMessageBox(OwnerForm, My.Resources.Messages.Q003, New String() {caption}) = DialogResult.No Then
+                        If UIHelper.ShowQuestionMessageBox(My.Resources.Messages.Q003, New String() {caption}) = DialogResult.No Then
                             Return
                         End If
                     End If
@@ -114,7 +92,29 @@ Namespace Win
 
                 cmd()
             Catch ex As Exception
-                UIHelper.ShowErrorMessageBox(OwnerForm, My.Resources.Messages.E000, ex)
+                UIHelper.ShowErrorMessageBox(My.Resources.Messages.E000, ex)
+                _mylog.Error(ex)
+            Finally
+                ResumeLayout()
+                Cursor.Current = Cursors.Default
+            End Try
+        End Sub
+
+        ''' <summary>
+        ''' 通常のイベントの引数を使用したメソッド実行
+        ''' </summary>
+        ''' <param name="cmd"></param>
+        ''' <param name="sender"></param>
+        ''' <param name="e"></param>
+        ''' <remarks></remarks>
+        Private Sub Execute(ByVal cmd As FormActionEventCallback, ByVal sender As Object, ByVal e As EventArgs) Implements IFormAction.Execute
+            Try
+                Cursor.Current = Cursors.WaitCursor
+                SuspendLayout()
+
+                cmd(sender, e)
+            Catch ex As Exception
+                UIHelper.ShowErrorMessageBox(My.Resources.Messages.E000, ex)
                 _mylog.Error(ex)
             Finally
                 ResumeLayout()
@@ -133,7 +133,7 @@ Namespace Win
                     If Frm.IsUpdate Then
                         ' 確認
                         caption = IIf(String.IsNullOrEmpty(caption), "検索", caption)
-                        If UIHelper.ShowQuestionMessageBox(OwnerForm, My.Resources.Messages.Q003, New String() {caption}) = DialogResult.No Then
+                        If UIHelper.ShowQuestionMessageBox(My.Resources.Messages.Q003, New String() {caption}) = DialogResult.No Then
                             Return
                         End If
                     End If
@@ -144,7 +144,7 @@ Namespace Win
 
                 cmd(sender, e)
             Catch ex As Exception
-                UIHelper.ShowErrorMessageBox(OwnerForm, My.Resources.Messages.E000, ex)
+                UIHelper.ShowErrorMessageBox(My.Resources.Messages.E000, ex)
                 _mylog.Error(ex)
             Finally
                 ResumeLayout()
@@ -168,7 +168,7 @@ Namespace Win
 
                 cmd(sender, e)
             Catch ex As Exception
-                UIHelper.ShowErrorMessageBox(OwnerForm, My.Resources.Messages.E000, ex)
+                UIHelper.ShowErrorMessageBox(My.Resources.Messages.E000, ex)
                 _mylog.Error(ex)
             Finally
                 ResumeLayout()
@@ -186,7 +186,7 @@ Namespace Win
 
                 cmd()
             Catch ex As Exception
-                UIHelper.ShowErrorMessageBox(OwnerForm, My.Resources.Messages.E000, ex)
+                UIHelper.ShowErrorMessageBox(My.Resources.Messages.E000, ex)
                 _mylog.Error(ex)
             Finally
                 ResumeLayout()
@@ -212,7 +212,7 @@ Namespace Win
                 Cursor.Current = Cursors.WaitCursor
                 rc = ProgressWindow.Show(_frm, handler, message, False, args)
             Catch ex As Exception
-                UIHelper.ShowErrorMessageBox(OwnerForm, My.Resources.Messages.E000, ex)
+                UIHelper.ShowErrorMessageBox(My.Resources.Messages.E000, ex)
                 _mylog.Error(ex)
             Finally
                 Cursor.Current = Cursors.Default
@@ -248,7 +248,7 @@ Namespace Win
                 Cursor.Current = Cursors.WaitCursor
                 rc = ProgressWindow.Show(_frm, handler, message, False, condition, successCallback, errorCallback, args)
             Catch ex As Exception
-                UIHelper.ShowErrorMessageBox(OwnerForm, My.Resources.Messages.E000, ex)
+                UIHelper.ShowErrorMessageBox(My.Resources.Messages.E000, ex)
                 _mylog.Error(ex)
             Finally
                 Cursor.Current = Cursors.Default
@@ -264,7 +264,7 @@ Namespace Win
                 Cursor.Current = Cursors.WaitCursor
                 rc = ProgressWindow.Show(_frm, handler, message, True, args)
             Catch ex As Exception
-                UIHelper.ShowErrorMessageBox(OwnerForm, My.Resources.Messages.E000, ex)
+                UIHelper.ShowErrorMessageBox(My.Resources.Messages.E000, ex)
                 _mylog.Error(ex)
             Finally
                 Cursor.Current = Cursors.Default
@@ -285,6 +285,7 @@ Namespace Win
         ''' <param name="cmd"></param>
         Public Sub ExecuteSelectFile(ByVal cmd As FormActionFileSelectExecuteCallback, ByVal applicationName As String, ByVal extension() As String) Implements IFormAction.ExecuteSelectFile
             Try
+                Cursor.Current = Cursors.Default
                 ResumeLayout()
 
                 Dim filename As String
@@ -299,7 +300,7 @@ Namespace Win
 
                 cmd(filename)
             Catch ex As Exception
-                UIHelper.ShowErrorMessageBox(OwnerForm, My.Resources.Messages.E000, ex)
+                UIHelper.ShowErrorMessageBox(My.Resources.Messages.E000, ex)
                 _mylog.Error(ex)
             Finally
                 ResumeLayout()
@@ -326,6 +327,7 @@ Namespace Win
         ''' <param name="defaultFileName"></param>
         Private Sub ExecuteSaveFile(ByVal cmd As FormActionFileSelectExecuteCallback, ByVal applicationName As String, ByVal extension As String, ByVal defaultFileName As String) Implements IFormAction.ExecuteSaveFile
             Try
+                Cursor.Current = Cursors.Default
                 ResumeLayout()
 
                 Dim filename As String
@@ -340,7 +342,7 @@ Namespace Win
 
                 cmd(filename)
             Catch ex As Exception
-                UIHelper.ShowErrorMessageBox(OwnerForm, My.Resources.Messages.E000, ex)
+                UIHelper.ShowErrorMessageBox(My.Resources.Messages.E000, ex)
                 _mylog.Error(ex)
             Finally
                 ResumeLayout()

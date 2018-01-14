@@ -3,14 +3,14 @@
   <Class Name="Moca.Win.ActionButton" Collapsed="true">
     <Position X="7.75" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IABAAAAAAAAAAAABAAAAAAAIAAAAABAAgAAAAAAAAAA=</HashCode>
+      <HashCode>IABAAAQAAAAAAAABAAAAAAAIAAAAAAAAgAAAAAAAAAA=</HashCode>
       <FileName>UI\Controls\ActionButton.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Moca.Win.ComboBoxEx" Collapsed="true">
     <Position X="7.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>IAAAAAAAAAIAAAAAACAAAAAAAAAAAAAABAAAAAAIAAA=</HashCode>
       <FileName>UI\Controls\ComboBoxEx.vb</FileName>
     </TypeIdentifier>
   </Class>
@@ -47,29 +47,36 @@
   <Class Name="Moca.Win.ChildForm" Collapsed="true">
     <Position X="2" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAACAACACEQACAEAACRAAAAAAAAQAAQACEAQA=</HashCode>
+      <HashCode>AAAAABAAACABCACEQACAEAACRAAAAAAAAQAAQACEAQA=</HashCode>
       <FileName>UI\Forms\ChildForm.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Moca.Win.CoreForm" Collapsed="true">
     <Position X="3.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QBAAAABAACgABAIAAAGAAAACQAAAAEBABAQAEwAAAEA=</HashCode>
+      <HashCode>QBABAABAACgRBAIAAAGAAAACQAAAAEFABAQAEwAAAEA=</HashCode>
       <FileName>UI\Forms\CoreForm.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Moca.Win.MainForm" Collapsed="true">
     <Position X="4.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QAAIABAAACBAgBAAAACAgQECAAAAACAAAAABAACAAAg=</HashCode>
+      <HashCode>QAAAABAAACBAgBAAAACAgQECIAAAACAEEAABAAKAAAg=</HashCode>
       <FileName>UI\Forms\MainForm.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Moca.Win.AlertMessage" Collapsed="true">
     <Position X="7.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAaAQIAIAAAIAQIBAMBCQgACQgCCIAGJAEIwCEpGAAE=</HashCode>
+      <HashCode>AAaAQIAIAAAIAQIBAMBCQgACQgCCIAGJAEIwCEpGAEE=</HashCode>
       <FileName>UI\Controls\AlertMessage.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Moca.Win.MLabel" Collapsed="true">
+    <Position X="9.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\Controls\MLabel.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="メイリオ" Size="9" />

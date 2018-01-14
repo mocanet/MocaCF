@@ -98,6 +98,33 @@ Namespace Util
 			Return valid
 		End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <param name="precision">小数点を除いた全桁数（小数点以下の桁も含める）</param>
+        ''' <param name="scale">小数点以下の桁数</param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Shared Function ValidDecimalPlace(ByVal value As String, ByVal precision As Integer, ByVal scale As Integer) As Boolean
+            Dim ary() As String
+            ary = value.Split(".")
+            If ary(0).Length > (precision - scale) Then
+                Return False
+            End If
+            If ary.Count.Equals(1) Then
+                Return True
+            End If
+            If (ary(0).Length + ary(1).Length) > precision Then
+                Return False
+            End If
+            If ary(1).Length > scale Then
+                Return False
+            End If
+
+            Return True
+        End Function
+
 	End Class
 
 End Namespace

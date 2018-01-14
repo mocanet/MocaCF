@@ -15,8 +15,7 @@ Namespace Win
         Private _progress As ProgressWindow
         Private _owner As Form
 
-        'Private worker As New BackgroundWorker
-        Private worker2 As Threading.Thread
+        Private worker As Threading.Thread
 
         Private _result As Object
 
@@ -73,22 +72,22 @@ Namespace Win
             Me.lblMessage.ForeColor = CoreSettings.Instance.DesignValue(DesignSettingKeys.PrimaryTextColor)
 
             Show()
-            Application.DoEvents()
+            'Application.DoEvents()
 
             ProgressWindow_Shown(sender, e)
         End Sub
 
         Private Sub ProgressWindow_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shown
-            If DesignMode Then
+            If UIHelper.DesignMode(Me) Then
                 Return
             End If
 
             'worker.WorkerSupportsCancellation = btnCancel.Visible
 
             Dim status As New ThreadStatus()
-            worker2 = New Threading.Thread(AddressOf onDoWork2)
-            worker2.IsBackground = True
-            worker2.Start()
+            worker = New Threading.Thread(AddressOf _onDoWork)
+            worker.IsBackground = True
+            worker.Start()
 
             'AddHandler worker.DoWork, AddressOf onDoWork
             'AddHandler worker.RunWorkerCompleted, AddressOf onRunWorkerCompleted
@@ -117,7 +116,7 @@ Namespace Win
             End If
         End Sub
 
-        Private Sub onDoWork2()
+        Private Sub _onDoWork()
             Dim args As New ProgressWindowEventArgs(Me._progress, Me._progress.Args)
             If Me._progress.Method Is Nothing Then
                 Return
@@ -147,39 +146,6 @@ Namespace Win
 
         Private Sub _runWorkerCompleted()
             Timer1.Enabled = False
-            Me.Close()
-        End Sub
-
-        Private Sub onDoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
-            Dim args As New ProgressWindowEventArgs(Me._progress, Me._progress.Args)
-            If Me._progress.Method Is Nothing Then
-                Return
-            End If
-
-            Me._progress.Method(Me, args)
-
-            'If worker.CancellationPending Then
-            '    e.Cancel = True
-            '    Return
-            'End If
-
-            If _progress.Condition IsNot Nothing Then
-                Dim values() As Object = _progress.Args.ToArray
-                If _progress.MethodInvoke(_progress.Condition, values) Then
-                    _progress.MethodInvoke(_progress.SuccessCallback, values)
-                Else
-                    _progress.MethodInvoke(_progress.ErrorCallback, values)
-                End If
-            End If
-
-            _result = args.Result
-
-            e.Result = _result
-        End Sub
-
-        Private Sub onRunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs)
-            Timer1.Enabled = False
-            _err = e.Error
             Me.Close()
         End Sub
 

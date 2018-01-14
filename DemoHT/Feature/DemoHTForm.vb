@@ -10,13 +10,11 @@
     Private Sub DemoHTForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         _mylog.Info("start !!")
 
-        AlertMessage31.FullClickClose = True
-        AlertMessage31.AutoCloseSecond = 4
-        AlertMessage31.Warn("テスト！")
+        AlertMessage1.Warn("テスト！")
     End Sub
 
     Private Sub ActionButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        AlertMessage31.Success("テスト！")
+        AlertMessage1.Success("テスト！")
     End Sub
 
     Protected Overrides ReadOnly Property DefaultChildForm() As Moca.Win.ChildForm

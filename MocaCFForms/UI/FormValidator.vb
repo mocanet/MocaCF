@@ -1,6 +1,7 @@
 ﻿
 Imports System.Windows.Forms
 Imports System.Drawing
+Imports System.ComponentModel
 
 Namespace Win
 
@@ -70,6 +71,7 @@ Namespace Win
             _frm = frm
 
             validator = New Util.Validator
+            _orgBackColor = New Dictionary(Of Control, Color)
 
             Me.DefalutControlBackColor = CoreSettings.Instance.FormValidateSettings(FormValidateSettingKeys.DefalutControlBackColor)
             Me.DefalutControlForeColor = CoreSettings.Instance.FormValidateSettings(FormValidateSettingKeys.DefalutControlForeColor)
@@ -279,16 +281,26 @@ Namespace Win
             'Me.ErrorProvider1.SetError(msgCtrl, String.Empty)
 
             'Me.ToolTip.SetToolTip(ctrl, String.Empty)
-            RemoveHandler ctrl.GotFocus, AddressOf _gotFocus
-            RemoveHandler ctrl.LostFocus, AddressOf _lostFocus
+            'RemoveHandler ctrl.GotFocus, AddressOf _gotFocus
+            'RemoveHandler ctrl.LostFocus, AddressOf _lostFocus
+
+            If _orgBackColor.ContainsKey(ctrl) Then
+                ctrl.BackColor = _orgBackColor(ctrl)
+            Else
+                _orgBackColor.Add(ctrl, ctrl.BackColor)
+            End If
+            'ctrl.BackColor = CoreSettings.Instance.FormValidateSettings(FormValidateSettingKeys.DefalutControlBackColor)
+            ctrl.ForeColor = CoreSettings.Instance.FormValidateSettings(FormValidateSettingKeys.DefalutControlForeColor)
+
             If Not TypeOf ctrl Is TextBoxBase Then
                 Return
             End If
             If Not CType(ctrl, TextBoxBase).ReadOnly Then
                 Return
             End If
-            ctrl.BackColor = CoreSettings.Instance.FormValidateSettings(FormValidateSettingKeys.DefalutControlBackColor)
         End Sub
+
+        Private _orgBackColor As IDictionary(Of Control, Color)
 
         ''' <summary>
         ''' エラーセットされたコントロールのGotFocusイベントハンドル
@@ -312,6 +324,267 @@ Namespace Win
         ''' <remarks></remarks>
         Private Sub _lostFocus(ByVal sender As System.Object, ByVal e As System.EventArgs)
             'Me.ToolTip.Hide(sender)
+        End Sub
+
+        ''' <summary>
+        ''' 検証
+        ''' </summary>
+        ''' <param name="ctrl">対象のコントロール</param>
+        ''' <param name="callback">独自検証するときのデリゲート</param>
+        ''' <returns></returns>
+        Public Overloads Function IsValid(ByVal ctrl As Control, ByVal callback As CustomVerifyCallback) As Boolean
+            Return IsValid(ctrl, ctrl, callback)
+        End Function
+
+        ''' <summary>
+        ''' 検証
+        ''' </summary>
+        ''' <param name="ctrl"></param>
+        ''' <param name="msgctrl"></param>
+        ''' <returns></returns>
+        Public Overloads Function IsValid(ByVal ctrl As Control, ByVal msgctrl As Control) As Boolean
+            Return IsValid(ctrl, msgctrl, Nothing)
+        End Function
+
+        ''' <summary>
+        ''' 検証
+        ''' </summary>
+        ''' <param name="ctrl">対象のコントロール</param>
+        ''' <param name="msgctrl">エラー表示するコントロール</param>
+        ''' <param name="callback">独自検証するときのデリゲート</param>
+        ''' <returns></returns>
+        Public Overloads Function IsValid(ByVal ctrl As Control, ByVal msgctrl As Control, ByVal callback As CustomVerifyCallback) As Boolean
+            If callback IsNot Nothing Then
+                Return _IsValid(ctrl, msgctrl, callback)
+            End If
+            If ctrl.DataBindings.Count.Equals(0) Then
+                Return _IsValid(ctrl, msgctrl, callback)
+            End If
+
+            If ValidTypes.Equals(Util.ValidateTypes.None) Then
+                ' エラークリア
+                If TypeOf ctrl Is Component Then
+                    Me.Clear(msgctrl)
+                Else
+                    Me.Clear(ctrl, msgctrl)
+                End If
+                Return True
+            End If
+
+            Return _IsValid(ctrl, msgctrl, callback)
+        End Function
+
+        ''' <summary>
+        ''' 標準的な入力チェックを実行
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 今のところ：必須、桁数（Max, Min）、日付、半角英数、メール、最小値、数値
+        ''' </remarks>
+        Private Function _IsValid(ByVal ctrl As Object, ByVal msgctrl As Control, ByVal callback As CustomVerifyCallback) As Boolean
+            Dim ret As Util.ValidateTypes
+
+            ' エラークリア
+            If TypeOf ctrl Is Component Then
+                Me.Clear(msgctrl)
+            Else
+                Me.Clear(ctrl, msgctrl)
+            End If
+
+            If callback IsNot Nothing Then
+                Dim msg As String = String.Empty
+                msg = callback(ctrl, Me)
+                If Not String.IsNullOrEmpty(msg) Then
+                    SetMessage(ctrl, msgctrl, msg)
+                    Return False
+                End If
+                Return True
+            End If
+
+            ' 値取得
+            If ctrl.GetType.GetProperty("Text") IsNot Nothing Then
+                Dim cnvCtrl As Control = ctrl
+                Me.Value = cnvCtrl.Text
+            ElseIf ctrl.GetType.GetProperty("SelectedValue") IsNot Nothing Then
+                Dim cnvLst As ListControl = ctrl
+                Me.Value = cnvLst.SelectedValue
+            End If
+
+            ' チェック実行
+            ret = validator.Verify(Me.Value.ToString, Me.ValidTypes, Me.Min, Me.Max)
+
+            ' 必須チェック
+            If Not validator.IsValidRequired(ret) Then
+                If TypeOf ctrl Is Component Then
+                    Me.SetMessage(msgctrl, My.Resources.ValidatorMessages.E001)
+                Else
+                    Me.SetMessage(ctrl, msgctrl, My.Resources.ValidatorMessages.E001)
+                End If
+                Return False
+            End If
+
+            ' 最大桁数チェック
+            If Not validator.IsValidLenghtMax(ret) Then
+                If TypeOf ctrl Is Component Then
+                    Me.SetMessage(msgctrl, My.Resources.ValidatorMessages.E002, Me.Max)
+                Else
+                    Me.SetMessage(ctrl, msgctrl, My.Resources.ValidatorMessages.E002, Me.Max)
+                End If
+                Return False
+            End If
+
+            ' 最大バイト数チェック
+            If Not validator.IsValidLenghtMaxB(ret) Then
+                If TypeOf ctrl Is Component Then
+                    Me.SetMessage(msgctrl, My.Resources.ValidatorMessages.E003, Me.Max)
+                Else
+                    Me.SetMessage(ctrl, msgctrl, My.Resources.ValidatorMessages.E003, Me.Max)
+                End If
+                Return False
+            End If
+
+            ' 最小桁数チェック
+            If Not validator.IsValidLenghtMin(ret) Then
+                If TypeOf ctrl Is Component Then
+                    Me.SetMessage(msgctrl, My.Resources.ValidatorMessages.E004, Me.Min)
+                Else
+                    Me.SetMessage(ctrl, msgctrl, My.Resources.ValidatorMessages.E004, Me.Min)
+                End If
+                Return False
+            End If
+
+            ' 日付チェック
+            If Not validator.IsValidDateFormat(ret) Then
+                If TypeOf ctrl Is Component Then
+                    Me.SetMessage(msgctrl, My.Resources.ValidatorMessages.E005)
+                Else
+                    Me.SetMessage(ctrl, msgctrl, My.Resources.ValidatorMessages.E005)
+                End If
+                Return False
+            End If
+
+            ' 半角英数チェック
+            If Not validator.IsValidHalfWidthAlphanumeric(ret) Then
+                If TypeOf ctrl Is Component Then
+                    Me.SetMessage(msgctrl, My.Resources.ValidatorMessages.E006)
+                Else
+                    Me.SetMessage(ctrl, msgctrl, My.Resources.ValidatorMessages.E006)
+                End If
+                Return False
+            End If
+
+            ' メールチェック
+            If Not validator.IsValidMail(ret) Then
+                If TypeOf ctrl Is Component Then
+                    Me.SetMessage(msgctrl, My.Resources.ValidatorMessages.E007)
+                Else
+                    Me.SetMessage(ctrl, msgctrl, My.Resources.ValidatorMessages.E007)
+                End If
+                Return False
+            End If
+
+            ' 最小値
+            If Not validator.IsValidMinimum(ret) Then
+                If TypeOf ctrl Is Component Then
+                    Me.SetMessage(msgctrl, My.Resources.ValidatorMessages.E008, Me.Min)
+                Else
+                    Me.SetMessage(ctrl, msgctrl, My.Resources.ValidatorMessages.E008, Me.Min)
+                End If
+                Return False
+            End If
+
+            ' 最大値
+            If Not validator.IsValidMaximum(ret) Then
+                If TypeOf ctrl Is Component Then
+                    Me.SetMessage(msgctrl, My.Resources.ValidatorMessages.E009, Me.Max)
+                Else
+                    Me.SetMessage(ctrl, msgctrl, My.Resources.ValidatorMessages.E009, Me.Max)
+                End If
+                Return False
+            End If
+
+            ' 符号付き数値
+            If Not validator.IsValidWithNumericSigned(ret) Then
+                If TypeOf ctrl Is Component Then
+                    Me.SetMessage(msgctrl, My.Resources.ValidatorMessages.E010)
+                Else
+                    Me.SetMessage(ctrl, msgctrl, My.Resources.ValidatorMessages.E010)
+                End If
+                Return False
+            End If
+
+            ' 数値
+            If Not validator.IsValidDecimal(ret) Then
+                If TypeOf ctrl Is Component Then
+                    Me.SetMessage(msgctrl, My.Resources.ValidatorMessages.E022)
+                Else
+                    Me.SetMessage(ctrl, msgctrl, My.Resources.ValidatorMessages.E022)
+                End If
+                Return False
+            End If
+
+            ' ここまでに判定されていないエラー
+            If ret <> Util.ValidateTypes.None Then
+                If TypeOf ctrl Is Component Then
+                    Me.SetMessage(msgctrl, My.Resources.ValidatorMessages.E018)
+                Else
+                    Me.SetMessage(ctrl, msgctrl, My.Resources.ValidatorMessages.E018)
+                End If
+                Return False
+            End If
+
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' メッセージ設定
+        ''' </summary>
+        ''' <param name="ctrl"></param>
+        ''' <param name="msg"></param>
+        ''' <param name="args"></param>
+        Private Overloads Sub SetMessage(ByVal ctrl As Control, ByVal msg As String, ByVal ParamArray args() As String)
+            Me.SetMessage(ctrl, ctrl, msg, args)
+        End Sub
+
+        ''' <summary>
+        ''' メッセージ設定
+        ''' </summary>
+        ''' <param name="ctrl"></param>
+        ''' <param name="msgCtrl"></param>
+        ''' <param name="msg"></param>
+        ''' <param name="args"></param>
+        ''' <remarks></remarks>
+        Private Overloads Sub SetMessage(ByVal ctrl As Control, ByVal msgCtrl As Control, ByVal msg As String, ByVal ParamArray args() As String)
+            Me.Message = String.Format(msg, args)
+            SetControlError(ctrl, msgCtrl)
+        End Sub
+
+        ''' <summary>
+        ''' コントロールのエラーセット
+        ''' </summary>
+        ''' <param name="ctrl"></param>
+        ''' <remarks></remarks>
+        Public Sub SetControlError(ByVal ctrl As Control)
+            SetControlError(ctrl, ctrl)
+        End Sub
+
+        ''' <summary>
+        ''' コントロールのエラーセット
+        ''' </summary>
+        ''' <param name="ctrl"></param>
+        ''' <remarks></remarks>
+        Friend Sub SetControlError(ByVal ctrl As Control, ByVal msgCtrl As Control)
+            Dim msgOrg As String = Nothing 'Me.ErrorProvider1.GetError(ctrl)
+            If Not String.IsNullOrEmpty(msgOrg) Then
+                Me.Message = msgOrg & vbCrLf & Me.Message
+            End If
+
+            ctrl.BackColor = CoreSettings.Instance.FormValidateSettings(FormValidateSettingKeys.ErrorControlBackColor)
+            ctrl.ForeColor = CoreSettings.Instance.FormValidateSettings(FormValidateSettingKeys.ErrorControlForeColor)
+
+            'Me.ToolTip.SetToolTip(ctrl, Me.Message)
+            'AddHandler ctrl.GotFocus, AddressOf _gotFocus
+            'AddHandler ctrl.LostFocus, AddressOf _lostFocus
         End Sub
 
 #End Region

@@ -1,5 +1,6 @@
 ﻿Imports System.Windows.Forms
 Imports System.Drawing
+Imports Moca.Util
 
 Namespace Win
 
@@ -9,6 +10,10 @@ Namespace Win
     ''' <remarks></remarks>
     Public Class MainForm
 
+#Region " log4net "
+        ''' <summary>log4net logger</summary>
+        Private ReadOnly _mylog As Global.log4net.ILog = Global.log4net.LogManager.GetLogger(GetType(MainForm))
+#End Region
 #Region " Declare "
 
         Private _childStack As Stack(Of ChildForm)
@@ -32,7 +37,7 @@ Namespace Win
 
             ' InitializeComponent() 呼び出しの後で初期化を追加します。
 
-            If DesignMode Then
+            If UIHelper.DesignMode(Me) Then
                 Return
             End If
 
@@ -94,7 +99,7 @@ Namespace Win
         ''' <param name="e"></param>
         ''' <remarks></remarks>
         Protected Overrides Sub OnLoad(ByVal e As System.EventArgs)
-            If DesignMode Then
+            If UIHelper.DesignMode(Me) Then
                 Return
             End If
 
@@ -124,25 +129,19 @@ Namespace Win
             _actionFormClosing(e)
         End Sub
 
-        'Protected Overrides Sub OnShown(ByVal e As System.EventArgs)
-        '    MyBase.OnShown(e)
+        Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
+            MyBase.OnKeyDown(e)
 
-        '    pnlMain.Focus()
-
-        '    If DefaultChildForm IsNot Nothing Then
-        '        If DefaultChildForm.StartFocusControl IsNot Nothing Then
-        '            DefaultChildForm.StartFocusControl.Focus()
-        '        End If
-        '    End If
-        'End Sub
-
-        'Protected Overridable Sub OnShown(ByVal e As EventArgs)
-        '    If DefaultChildForm IsNot Nothing Then
-        '        If DefaultChildForm.StartFocusControl IsNot Nothing Then
-        '            DefaultChildForm.StartFocusControl.Focus()
-        '        End If
-        '    End If
-        'End Sub
+            If ShortCutKeys.ContainsKey(e.KeyCode) Then
+                AlertMessage1.Clear()
+                Return
+            End If
+            If e.KeyCode = Keys.Return Then
+                ' Return時
+                AlertMessage1.Clear()
+                Return
+            End If
+        End Sub
 
 #End Region
 
@@ -217,7 +216,7 @@ Namespace Win
             End If
 
             Dim frm As ChildForm
-            frm = Activator.CreateInstance(typ)
+            frm = ClassUtil.NewInstance(typ)
             ShowChildForm(frm)
         End Sub
 
@@ -230,12 +229,20 @@ Namespace Win
         Public Overloads Sub ShowChildForm(ByVal typ As Type, ByVal value As Object)
             Dim frm As ChildForm
 
-            frm = Activator.CreateInstance(typ)
+            'frm = ClassUtil.NewInstance(typ)
+
+            'If value IsNot Nothing Then
+            '    Dim args As New ChildFormArgs(value, Me)
+            '    frm.SetArgs(args)
+            'End If
 
             If value IsNot Nothing Then
                 Dim args As New ChildFormArgs(value, Me)
-                frm.SetArgs(args)
+                frm = ClassUtil.NewInstance(typ, New Object() {args})
+            Else
+                frm = ClassUtil.NewInstance(typ)
             End If
+
             ShowChildForm(frm)
         End Sub
 
@@ -248,12 +255,20 @@ Namespace Win
         Public Overloads Sub ShowChildForm(ByVal command As CommandType, ByVal typ As Type, ByVal value As Object)
             Dim frm As ChildForm
 
-            frm = Activator.CreateInstance(typ)
+            'frm = ClassUtil.NewInstance(typ)
+
+            'If Not command.Equals(CommandType.None) Or value IsNot Nothing Then
+            '    Dim args As New ChildFormArgs(command, value, Me)
+            '    frm.SetArgs(args)
+            'End If
 
             If Not command.Equals(CommandType.None) Or value IsNot Nothing Then
                 Dim args As New ChildFormArgs(command, value, Me)
-                frm.SetArgs(args)
+                frm = ClassUtil.NewInstance(typ, New Object() {args})
+            Else
+                frm = ClassUtil.NewInstance(typ)
             End If
+
             ShowChildForm(frm)
         End Sub
 
@@ -278,7 +293,6 @@ Namespace Win
                     child.pnlContents.Visible = False
                 End If
                 If DefaultChildForm IsNot Nothing Then
-                    DefaultChildForm.Visible = False
                     DefaultChildForm.pnlContents.Visible = False
                 End If
 
@@ -286,18 +300,17 @@ Namespace Win
                 child.Dock = DockStyle.Fill
                 child.Width = Me.pnlMain.Width
                 child.Height = Me.pnlMain.Height
-                child.OwnerForm = Me
-                child.Visible = True
-                child.Visible = False
-                pnlMain.Controls.Add(child.pnlContents)
                 Me.Text = String.Format(CoreSettings.Instance.WindowTitle, CoreSettings.Instance.Title, child.Text)
                 Me.ShortCutKeys = child.ShortCutKeys
+                pnlMain.Controls.Add(child.pnlContents)
+                child.OwnerForm = Me
 
                 _childStack.Push(child)
             Finally
-                Me.pnlMain.Visible = True
+                AlertMessage1.Clear()
+                pnlMain.Visible = True
                 child.pnlContents.Focus()
-                If child IsNot Nothing AndAlso child.StartFocusControl IsNot Nothing Then
+                If child.StartFocusControl IsNot Nothing Then
                     child.StartFocusControl.Focus()
                 End If
             End Try
@@ -316,21 +329,20 @@ Namespace Win
 
             Try
                 Me.pnlMain.Visible = False
-                If Not Me.pnlMain.Controls.Contains(DefaultChildForm) Then
+                If Not Me.pnlMain.Controls.Contains(DefaultChildForm.pnlContents) Then
                     DefaultChildForm.Dock = DockStyle.Fill
                     DefaultChildForm.Width = Me.pnlMain.Width
                     DefaultChildForm.Height = Me.pnlMain.Height
                     DefaultChildForm.OwnerForm = Me
-                    DefaultChildForm.Visible = True
-                    DefaultChildForm.Visible = False
-                    Me.pnlMain.Controls.Add(DefaultChildForm.pnlContents)
-                    Me.Text = String.Format(CoreSettings.Instance.WindowTitle, CoreSettings.Instance.Title, DefaultChildForm.Text)
-                    Me.ShortCutKeys = DefaultChildForm.ShortCutKeys
+                    pnlMain.Controls.Add(DefaultChildForm.pnlContents)
                 End If
+                Me.Text = String.Format(CoreSettings.Instance.WindowTitle, CoreSettings.Instance.Title, DefaultChildForm.Text)
+                Me.ShortCutKeys = DefaultChildForm.ShortCutKeys
                 DefaultChildForm.pnlContents.Visible = True
-                DefaultChildForm.BringToFront()
             Finally
-                Me.pnlMain.Visible = True
+                AlertMessage1.Clear()
+                pnlMain.Visible = True
+                DefaultChildForm.pnlContents.Focus()
                 If DefaultChildForm.StartFocusControl IsNot Nothing Then
                     DefaultChildForm.StartFocusControl.Focus()
                 End If
@@ -352,7 +364,7 @@ Namespace Win
             ' 編集あり？
             If child.IsUpdate Then
                 ' 確認
-                If UIHelper.ShowQuestionMessageBox(Me, My.Resources.Messages.Q003, New String() {"前の画面へ移動"}) = DialogResult.No Then
+                If UIHelper.ShowQuestionMessageBox(My.Resources.Messages.Q003, New String() {"前の画面へ移動"}) = DialogResult.No Then
                     Return
                 End If
             End If
@@ -378,7 +390,6 @@ Namespace Win
                 child.pnlContents.BringToFront()
                 child.RefreshContents(beforeChild)
                 child.pnlContents.Focus()
-                Application.DoEvents()
                 Return
             End If
 

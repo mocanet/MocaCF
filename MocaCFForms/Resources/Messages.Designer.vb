@@ -65,9 +65,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  システムエラーが発生しました．システム管理者へ連絡してください．
-        '''
-        '''エラー内容：
+        '''  エラー内容：
         '''{0} に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Public Shared ReadOnly Property E000() As String
@@ -84,6 +82,16 @@ Namespace My.Resources
         Public Shared ReadOnly Property Q003() As String
             Get
                 Return ResourceManager.GetString("Q003", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  システムエラーが発生しました．
+        '''システム管理者へ連絡してください． に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property S000() As String
+            Get
+                Return ResourceManager.GetString("S000", resourceCulture)
             End Get
         End Property
     End Class

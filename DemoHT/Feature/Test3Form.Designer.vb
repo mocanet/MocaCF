@@ -23,11 +23,13 @@ Partial Class Test3Form
         Me.ActionButton2 = New Moca.Win.ActionButton
         Me.ActionButton3 = New Moca.Win.ActionButton
         Me.ActionButton4 = New Moca.Win.ActionButton
+        Me.MLabel1 = New Moca.Win.MLabel
         Me.pnlContents.SuspendLayout()
         Me.SuspendLayout()
         '
         'pnlContents
         '
+        Me.pnlContents.Controls.Add(Me.MLabel1)
         Me.pnlContents.Controls.Add(Me.ActionButton4)
         Me.pnlContents.Controls.Add(Me.ActionButton3)
         Me.pnlContents.Controls.Add(Me.ActionButton2)
@@ -36,35 +38,45 @@ Partial Class Test3Form
         '
         'ActionButton1
         '
-        Me.ActionButton1.Location = New System.Drawing.Point(42, 33)
+        Me.ActionButton1.Location = New System.Drawing.Point(42, 16)
         Me.ActionButton1.Name = "ActionButton1"
         Me.ActionButton1.Size = New System.Drawing.Size(153, 55)
         Me.ActionButton1.TabIndex = 0
-        Me.ActionButton1.Text = "ActionButton1"
+        Me.ActionButton1.Text = "ExecuteProgress"
         '
         'ActionButton2
         '
-        Me.ActionButton2.Location = New System.Drawing.Point(43, 94)
+        Me.ActionButton2.Location = New System.Drawing.Point(43, 77)
         Me.ActionButton2.Name = "ActionButton2"
         Me.ActionButton2.Size = New System.Drawing.Size(153, 55)
         Me.ActionButton2.TabIndex = 1
-        Me.ActionButton2.Text = "ActionButton2"
         '
         'ActionButton3
         '
-        Me.ActionButton3.Location = New System.Drawing.Point(43, 155)
+        Me.ActionButton3.Location = New System.Drawing.Point(43, 138)
         Me.ActionButton3.Name = "ActionButton3"
         Me.ActionButton3.Size = New System.Drawing.Size(153, 55)
         Me.ActionButton3.TabIndex = 2
-        Me.ActionButton3.Text = "ActionButton3"
+        Me.ActionButton3.Text = "ExecuteSelectFile"
         '
         'ActionButton4
         '
-        Me.ActionButton4.Location = New System.Drawing.Point(43, 216)
+        Me.ActionButton4.Location = New System.Drawing.Point(43, 199)
         Me.ActionButton4.Name = "ActionButton4"
         Me.ActionButton4.Size = New System.Drawing.Size(153, 55)
         Me.ActionButton4.TabIndex = 3
-        Me.ActionButton4.Text = "ActionButton4"
+        Me.ActionButton4.Text = "ExecuteSaveFile"
+        '
+        'MLabel1
+        '
+        Me.MLabel1.BorderColor = System.Drawing.Color.Empty
+        Me.MLabel1.BorderWidth = 1
+        Me.MLabel1.Location = New System.Drawing.Point(43, 260)
+        Me.MLabel1.Name = "MLabel1"
+        Me.MLabel1.Size = New System.Drawing.Size(152, 16)
+        Me.MLabel1.TabIndex = 4
+        Me.MLabel1.Text = "MLabel1"
+        Me.MLabel1.TextAlign = Moca.TextAlignment.TopCenter
         '
         'Test3Form
         '
@@ -80,5 +92,6 @@ Partial Class Test3Form
     Friend WithEvents ActionButton4 As Moca.Win.ActionButton
     Friend WithEvents ActionButton3 As Moca.Win.ActionButton
     Friend WithEvents ActionButton2 As Moca.Win.ActionButton
+    Friend WithEvents MLabel1 As Moca.Win.MLabel
 
 End Class

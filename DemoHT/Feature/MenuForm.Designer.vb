@@ -23,11 +23,21 @@ Partial Class MenuForm
         Me.ActionButton2 = New Moca.Win.ActionButton
         Me.ActionButton3 = New Moca.Win.ActionButton
         Me.TextBoxEx1 = New Moca.Win.TextBoxEx
+        Me.ActionButton4 = New Moca.Win.ActionButton
+        Me.ActionButton5 = New Moca.Win.ActionButton
+        Me.ActionButton6 = New Moca.Win.ActionButton
+        Me.ActionButton7 = New Moca.Win.ActionButton
+        Me.MLabel1 = New Moca.Win.MLabel
         Me.pnlContents.SuspendLayout()
         Me.SuspendLayout()
         '
         'pnlContents
         '
+        Me.pnlContents.Controls.Add(Me.MLabel1)
+        Me.pnlContents.Controls.Add(Me.ActionButton7)
+        Me.pnlContents.Controls.Add(Me.ActionButton6)
+        Me.pnlContents.Controls.Add(Me.ActionButton5)
+        Me.pnlContents.Controls.Add(Me.ActionButton4)
         Me.pnlContents.Controls.Add(Me.TextBoxEx1)
         Me.pnlContents.Controls.Add(Me.ActionButton3)
         Me.pnlContents.Controls.Add(Me.ActionButton2)
@@ -61,11 +71,54 @@ Partial Class MenuForm
         'TextBoxEx1
         '
         Me.TextBoxEx1.BottomBorderColor = System.Drawing.Color.Empty
-        Me.TextBoxEx1.Location = New System.Drawing.Point(29, 33)
+        Me.TextBoxEx1.Location = New System.Drawing.Point(29, 51)
         Me.TextBoxEx1.Name = "TextBoxEx1"
         Me.TextBoxEx1.Size = New System.Drawing.Size(180, 23)
         Me.TextBoxEx1.TabIndex = 0
         Me.TextBoxEx1.TextChangedCompleteDelay = 0
+        '
+        'ActionButton4
+        '
+        Me.ActionButton4.Location = New System.Drawing.Point(29, 216)
+        Me.ActionButton4.Name = "ActionButton4"
+        Me.ActionButton4.Size = New System.Drawing.Size(87, 31)
+        Me.ActionButton4.TabIndex = 4
+        Me.ActionButton4.Text = "Warning"
+        '
+        'ActionButton5
+        '
+        Me.ActionButton5.Location = New System.Drawing.Point(122, 216)
+        Me.ActionButton5.Name = "ActionButton5"
+        Me.ActionButton5.Size = New System.Drawing.Size(87, 31)
+        Me.ActionButton5.TabIndex = 5
+        Me.ActionButton5.Text = "Error"
+        '
+        'ActionButton6
+        '
+        Me.ActionButton6.Location = New System.Drawing.Point(29, 253)
+        Me.ActionButton6.Name = "ActionButton6"
+        Me.ActionButton6.Size = New System.Drawing.Size(87, 31)
+        Me.ActionButton6.TabIndex = 6
+        Me.ActionButton6.Text = "Question"
+        '
+        'ActionButton7
+        '
+        Me.ActionButton7.Location = New System.Drawing.Point(122, 253)
+        Me.ActionButton7.Name = "ActionButton7"
+        Me.ActionButton7.Size = New System.Drawing.Size(87, 31)
+        Me.ActionButton7.TabIndex = 7
+        Me.ActionButton7.Text = "Information"
+        '
+        'MLabel1
+        '
+        Me.MLabel1.BorderColor = System.Drawing.Color.Gray
+        Me.MLabel1.BorderWidth = 2
+        Me.MLabel1.Location = New System.Drawing.Point(29, 3)
+        Me.MLabel1.Name = "MLabel1"
+        Me.MLabel1.Size = New System.Drawing.Size(180, 42)
+        Me.MLabel1.TabIndex = 8
+        Me.MLabel1.Text = "MLabel1"
+        Me.MLabel1.TextAlign = Moca.TextAlignment.MiddleCenter
         '
         'MenuForm
         '
@@ -81,5 +134,10 @@ Partial Class MenuForm
     Friend WithEvents ActionButton3 As Moca.Win.ActionButton
     Friend WithEvents ActionButton2 As Moca.Win.ActionButton
     Friend WithEvents TextBoxEx1 As Moca.Win.TextBoxEx
+    Friend WithEvents ActionButton7 As Moca.Win.ActionButton
+    Friend WithEvents ActionButton6 As Moca.Win.ActionButton
+    Friend WithEvents ActionButton5 As Moca.Win.ActionButton
+    Friend WithEvents ActionButton4 As Moca.Win.ActionButton
+    Friend WithEvents MLabel1 As Moca.Win.MLabel
 
 End Class

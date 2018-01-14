@@ -17,6 +17,9 @@ Namespace Win
 
         Protected keyMode As Int32 = 0   ' 0:タブ移動モード 1:入力モード
 
+        ''' <summary>アクション処理</summary>
+        Protected Friend action As IFormAction
+
 #End Region
 
 #Region " コンストラクタ "
@@ -32,12 +35,11 @@ Namespace Win
 
             ' InitializeComponent() 呼び出しの後で初期化を追加します。
 
-            If Me.DesignMode Then
+            If UIHelper.DesignMode(Me) Then
                 Return
             End If
 
-            _enterKeys = New Dictionary(Of Control, ActionButton)
-            _shortCutKeys = New Dictionary(Of ShortcutKey, ActionButton)
+            _actionInit()
         End Sub
 
 #End Region
@@ -50,21 +52,11 @@ Namespace Win
         ''' <param name="e"></param>
         ''' <remarks></remarks>
         Protected Overrides Sub OnLoad(ByVal e As System.EventArgs)
-            If Me.DesignMode Then
+            If UIHelper.DesignMode(Me) Then
                 Return
             End If
 
-            Debug.WriteLine(Me.GetType.Name & " OnLoad")
-            _isLoaded = True
-            _isShown = False
-
-            Me.Icon = CoreSettings.Instance.Icon
-            Me.ForeColor = CoreSettings.Instance.DesignValue(DesignSettingKeys.PrimaryTextColor)
-            Me.BackColor = CoreSettings.Instance.DesignValue(DesignSettingKeys.BackColor)
-
-            setControlStyle(Me.Controls)
-
-            MyBase.OnLoad(e)
+            action.Execute(AddressOf _actionLoad, Me, e)
         End Sub
 
         Private _isLoaded As Boolean
@@ -80,8 +72,6 @@ Namespace Win
                 Return
             End If
 
-            Debug.WriteLine(Me.GetType.Name & " OnActivated")
-
             _isShown = True
             _isLoaded = False
             OnShown(New EventArgs())
@@ -92,21 +82,17 @@ Namespace Win
             RaiseEvent Shown(Me, e)
         End Sub
 
+        Protected Overrides Sub OnClosing(ByVal e As System.ComponentModel.CancelEventArgs)
+            action.Execute(AddressOf _actionClosing, Me, e)
+        End Sub
+
+        Protected Overrides Sub OnClosed(ByVal e As System.EventArgs)
+            action.Execute(AddressOf _actionClosed, Me, e)
+        End Sub
+
 #End Region
 
 #Region " Property "
-
-        ''' <summary>
-        ''' デザインモードかどうか
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Protected ReadOnly Property DesignMode() As Boolean
-            Get
-                Return Me.Site IsNot Nothing AndAlso Me.Site.DesignMode
-            End Get
-        End Property
 
         ''' <summary>
         ''' 更新ありかどうか
@@ -131,7 +117,7 @@ Namespace Win
                 Dim btn As ActionButton
                 btn = _shortCutKeys(e.KeyCode)
                 If btn IsNot Nothing Then
-                    btn.DoClick()
+                    btn.PerformClick()
                     e.Handled = True
                     Return
                 End If
@@ -158,8 +144,7 @@ Namespace Win
             If TypeOf focusedControl Is Button Then
                 If e.KeyCode = Keys.Return Then
                     ' Return時
-                    DirectCast(focusedControl, ActionButton).DoClick()
-                    e.Handled = True
+                    Return
                 End If
                 ' コントロール
                 If e.KeyCode = Keys.Down OrElse e.KeyCode = Keys.Right OrElse e.KeyCode = (Keys.LButton Or Keys.Back) Then
@@ -188,6 +173,46 @@ Namespace Win
 
 #End Region
 
+#Region " Action "
+
+        ''' <summary>
+        ''' 初期化
+        ''' </summary>
+        ''' <remarks></remarks>
+        Private Sub _actionInit()
+            action = New FormAction()
+            _enterKeys = New Dictionary(Of Control, ActionButton)
+            _shortCutKeys = New Dictionary(Of ShortcutKey, ActionButton)
+
+            action.Frm = Me
+        End Sub
+
+        ''' <summary>
+        ''' フォームロード
+        ''' </summary>
+        ''' <remarks></remarks>
+        Private Sub _actionLoad(ByVal sender As Object, ByVal e As System.EventArgs)
+            _isLoaded = True
+            _isShown = False
+
+            Me.Icon = CoreSettings.Instance.Icon
+            Me.ForeColor = CoreSettings.Instance.DesignValue(DesignSettingKeys.PrimaryTextColor)
+            Me.BackColor = CoreSettings.Instance.DesignValue(DesignSettingKeys.BackColor)
+
+            setControlStyle(Me.Controls)
+
+            MyBase.OnLoad(e)
+        End Sub
+
+        Private Sub _actionClosing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs)
+            MyBase.OnClosing(e)
+        End Sub
+
+        Private Sub _actionClosed(ByVal sender As Object, ByVal e As System.EventArgs)
+            MyBase.OnClosed(e)
+        End Sub
+
+#End Region
 #Region " Method "
 
         Private Function _getFocusedControl(ByVal parent As Control) As Control
@@ -204,32 +229,24 @@ Namespace Win
         End Function
 
         Private Sub DrawRect(ByVal control As Control, ByVal drawmode As Boolean)
-            Dim graph As Graphics = Nothing
-            Dim bkcolor As New Color()
+            Dim bkcolor As Color
             Dim parent As Control = control.Parent
 
-            If TypeOf control Is RadioButton OrElse TypeOf control Is TextBox OrElse TypeOf control Is HScrollBar OrElse TypeOf control Is TrackBar OrElse TypeOf control Is ComboBox OrElse TypeOf control Is ListBox OrElse TypeOf control Is NumericUpDown Then
-                graph = parent.CreateGraphics()
+            Using graph As Graphics = parent.CreateGraphics()
                 bkcolor = parent.BackColor
-            End If
 
-            If graph Is Nothing Then
-                Return
-            End If
-
-            Dim pen As Pen = Nothing
-            If drawmode = True Then
-                pen = New Pen(Color.FromArgb(0, 192, 0), 3)
-                Dim rect As New Rectangle()
-                If True Then
-                    rect = New Rectangle(control.Location.X, control.Location.Y, control.Size.Width, Math.Min(control.Size.Height, (control.ClientSize.Height + 1)))
+                If drawmode Then
+                    '0, 192, 0
+                    '0, 0, 255
+                    Using pen As Pen = New Pen(Color.FromArgb(0, 0, 255), 3)
+                        Dim rect As Rectangle
+                        rect = New Rectangle(control.Location.X, control.Location.Y, control.Size.Width, Math.Min(control.Size.Height, (control.ClientSize.Height + 1)))
+                        graph.DrawRectangle(pen, rect)
+                    End Using
+                Else
+                    graph.Clear(bkcolor)
                 End If
-                graph.DrawRectangle(pen, rect)
-                pen.Dispose()
-            Else
-                graph.Clear(bkcolor)
-            End If
-            graph.Dispose()
+            End Using
         End Sub
 
         ''' <summary>
@@ -269,7 +286,7 @@ Namespace Win
             End If
 
             Dim btn As ActionButton = DirectCast(_enterKeys(sender), ActionButton)
-            btn.DoClick()
+            btn.PerformClick()
         End Sub
 
         Private _enterKeys As IDictionary(Of Control, ActionButton)

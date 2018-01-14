@@ -1,6 +1,6 @@
 ﻿Public Class Test2Form
 
-    Private Sub Test2Form_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub Test2Form_Startup(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Startup
         StartFocusControl = TextBoxEx2
     End Sub
 

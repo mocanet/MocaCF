@@ -29,9 +29,11 @@ Namespace Win
 
             'この呼び出しは、コンポーネント デザイナで必要です。
             InitializeComponent()
-        End Sub
 
-#End Region
+            If UIHelper.DesignMode(Me) Then
+                Return
+            End If
+        End Sub
 
         'Component は、コンポーネント一覧に後処理を実行するために dispose をオーバーライドします。
         <System.Diagnostics.DebuggerNonUserCode()> _
@@ -71,16 +73,19 @@ Namespace Win
                 .Size = New Size(1, 1)
                 .Text = String.Empty
                 .Name = Me.Name & "BottomBorder"
-                .Visible = True
+                .Visible = Not BottomBorderColor.Equals(Color.Empty)
             End With
 
             Try
                 Controls.Add(_bottomBorder)
+                _bottomBorder.Visible = True
             Catch ex As Exception
             End Try
 
             Me.ResumeLayout(False)
         End Sub
+
+#End Region
 
 #Region " Property "
 
@@ -91,6 +96,7 @@ Namespace Win
             Set(ByVal value As Color)
                 _bottomBorderColor = value
                 _bottomBorder.BackColor = _bottomBorderColor
+                Invalidate()
             End Set
         End Property
 
@@ -114,25 +120,34 @@ Namespace Win
             If Parent Is Nothing Then
                 Return
             End If
+            _showBottomBorder()
             AddHandler Parent.GotFocus, AddressOf _parentGotFocus
             _AddHandler = True
         End Sub
 
         Private Sub _parentGotFocus(ByVal sender As Object, ByVal e As System.EventArgs)
-            ShowBottomBorder()
+            _showBottomBorder()
         End Sub
 
 #End Region
 
-        Private Sub ShowBottomBorder()
+        Private Sub _showBottomBorder()
             Try
+                If Parent Is Nothing Then
+                    Return
+                End If
                 If _bottomBorder.Parent IsNot Nothing Then
                     Return
                 End If
                 If _bottomBorderColor.Equals(Color.Empty) Then
+                    _bottomBorder.Visible = False
                     Return
                 End If
+                'If Not Visible Then
+                '    Return
+                'End If
 
+                _bottomBorder.Visible = True
                 _bottomBorder.Dock = DockStyle.None
                 _bottomBorder.Top = Me.Top + Me.Height - 1
                 _bottomBorder.Left = Me.Left
@@ -142,65 +157,6 @@ Namespace Win
             Catch ex As System.ObjectDisposedException
                 ' 画面を閉じると発生してしまうが回避方法がつかめないので Try-Catch
             End Try
-        End Sub
-
-
-        Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
-            Dim g As Graphics = e.Graphics
-            Dim brush As New SolidBrush(Color.Black)
-            Dim format As New StringFormat()
-
-            format.Alignment = StringAlignment.Center
-            format.LineAlignment = StringAlignment.Center
-            xDrawString(Text, Font, brush, g, e.ClipRectangle, format)
-
-            'MyBase.OnPaint(e)
-        End Sub
-
-        Private Sub xDrawString(ByVal text As String, ByVal font As Font, _
-            ByVal brush As SolidBrush, ByVal g As Graphics, _
-            ByVal rec As Rectangle, ByVal format As StringFormat)
-
-            If text.IndexOf(vbLf) > 0 Then
-                'Multi Line
-                'Make array of lines
-                Dim strArray() As String
-                strArray = text.Split(vbLf)
-
-                'make a new rec the size of one line
-                Dim lineSize As SizeF = g.MeasureString(strArray(0), font)
-                Dim lineRec As New Rectangle
-                lineRec = rec
-                lineRec.Height = lineSize.Height
-
-                'Set the top of the first line
-                Dim firstLineTop As Integer
-                Select Case format.LineAlignment
-
-                    Case StringAlignment.Near
-                        firstLineTop = rec.Top
-
-                    Case StringAlignment.Center
-                        firstLineTop = (rec.Height / 2) - ((lineSize.Height * strArray.Length) / 2) + rec.Top
-
-                    Case StringAlignment.Far
-                        firstLineTop = (rec.Height) - (lineSize.Height * (strArray.Length)) + rec.Top
-                End Select
-
-                'Draw all lines
-                Dim i As Integer
-                format.LineAlignment = StringAlignment.Near
-
-                For i = 0 To strArray.Length - 1
-                    lineRec.Location = New Point(lineRec.Left, (lineSize.Height * i) + firstLineTop)
-                    g.DrawString(strArray(i), font, brush, lineRec, format)
-                Next
-
-            Else
-                'One line
-                g.DrawString(text, font, brush, rec, format)
-            End If
-
         End Sub
 
     End Class

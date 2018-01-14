@@ -65,7 +65,125 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  個人コードが登録されていません． に類似しているローカライズされた文字列を検索します。
+        '''  処理中にエラーが発生しました に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E000() As String
+            Get
+                Return ResourceManager.GetString("E000", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  必須項目です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E001() As String
+            Get
+                Return ResourceManager.GetString("E001", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  {0}文字以内で入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E002() As String
+            Get
+                Return ResourceManager.GetString("E002", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  {0}バイト以内で入力です
+        '''【半角:1バイト 全角:2バイト】 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E003() As String
+            Get
+                Return ResourceManager.GetString("E003", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  {0}文字以上で入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E004() As String
+            Get
+                Return ResourceManager.GetString("E004", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  日付入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E005() As String
+            Get
+                Return ResourceManager.GetString("E005", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  半角英数入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E006() As String
+            Get
+                Return ResourceManager.GetString("E006", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  メールアドレス入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E007() As String
+            Get
+                Return ResourceManager.GetString("E007", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  {0}以上の入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E008() As String
+            Get
+                Return ResourceManager.GetString("E008", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  {0}以下の入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E009() As String
+            Get
+                Return ResourceManager.GetString("E009", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  数値入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E010() As String
+            Get
+                Return ResourceManager.GetString("E010", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  個人コードまたはパスワードが不正です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E011() As String
+            Get
+                Return ResourceManager.GetString("E011", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  個人コードの入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E012() As String
+            Get
+                Return ResourceManager.GetString("E012", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  個人コードが未登録です に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Public Shared ReadOnly Property E013() As String
             Get
@@ -74,11 +192,110 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  権限がありません． に類似しているローカライズされた文字列を検索します。
+        '''  パスワードの期限切れです に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E014() As String
+            Get
+                Return ResourceManager.GetString("E014", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  パスワードが違うようです に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E015() As String
+            Get
+                Return ResourceManager.GetString("E015", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  権限がありません に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Public Shared ReadOnly Property E016() As String
             Get
                 Return ResourceManager.GetString("E016", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  データが存在しません に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E017() As String
+            Get
+                Return ResourceManager.GetString("E017", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  入力誤りです に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E018() As String
+            Get
+                Return ResourceManager.GetString("E018", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  データを入力してください に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E019() As String
+            Get
+                Return ResourceManager.GetString("E019", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  {0}より大きい数値の入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E020() As String
+            Get
+                Return ResourceManager.GetString("E020", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  {0}より小さい数値の入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E021() As String
+            Get
+                Return ResourceManager.GetString("E021", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  符号なし数値の入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E022() As String
+            Get
+                Return ResourceManager.GetString("E022", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  {0}より大きい日付の入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E023() As String
+            Get
+                Return ResourceManager.GetString("E023", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  このユーザーは使用できません に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E024() As String
+            Get
+                Return ResourceManager.GetString("E024", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  整数{0}桁，小数{1}桁入力です に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E025() As String
+            Get
+                Return ResourceManager.GetString("E025", resourceCulture)
             End Get
         End Property
     End Class

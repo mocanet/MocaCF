@@ -6,6 +6,10 @@ Imports System.Drawing
 
 Namespace Win
 
+    ''' <summary>
+    ''' バインドコンポーネントコンテキスト
+    ''' </summary>
+    ''' <remarks></remarks>
     Public Class BindComponentContext
 
 #Region " Declare "
@@ -142,6 +146,16 @@ Namespace Win
             End Set
         End Property
         Private _NormalBackColor As Color
+
+        Public Property ContinueOnVerifyFailure() As Boolean
+            Get
+                Return _ContinueOnVerifyFailure
+            End Get
+            Set(ByVal value As Boolean)
+                _ContinueOnVerifyFailure = value
+            End Set
+        End Property
+        Private _ContinueOnVerifyFailure As Boolean
 
 #End Region
 

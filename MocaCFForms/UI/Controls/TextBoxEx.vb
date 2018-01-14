@@ -58,15 +58,22 @@ Namespace Win
 
             _bottomBorder = New Label()
             With _bottomBorder
+                .Anchor = AnchorStyles.Top Or AnchorStyles.Left
                 .Height = 1
                 .Dock = DockStyle.Bottom
-                '.BackColor = BottomBorderColor
+                .Font = Font
+                .BackColor = BottomBorderColor
                 .Location = New Point(0, 0)
+                .Size = New Size(1, 1)
                 .Text = String.Empty
                 .Name = Me.Name & "BottomBorder"
-                .Visible = True
+                .Visible = Not BottomBorderColor.Equals(Color.Empty)
             End With
-            'Controls.Add(_bottomBorder)
+
+            Try
+                Controls.Add(_bottomBorder)
+            Catch ex As Exception
+            End Try
 
             Me.ResumeLayout(False)
         End Sub
@@ -101,6 +108,7 @@ Namespace Win
             Set(ByVal value As Color)
                 _bottomBorderColor = value
                 _bottomBorder.BackColor = _bottomBorderColor
+                Invalidate()
             End Set
         End Property
 
@@ -131,6 +139,25 @@ Namespace Win
         Protected Overrides Sub OnResize(ByVal e As System.EventArgs)
             MyBase.OnResize(e)
             _bottomBorder.Height = 1
+        End Sub
+
+        Private _AddHandler As Boolean
+
+        Protected Overrides Sub OnParentChanged(ByVal e As System.EventArgs)
+            MyBase.OnParentChanged(e)
+
+            If _AddHandler Then
+                Return
+            End If
+            If Parent Is Nothing Then
+                Return
+            End If
+            AddHandler Parent.GotFocus, AddressOf _parentGotFocus
+            _AddHandler = True
+        End Sub
+
+        Private Sub _parentGotFocus(ByVal sender As Object, ByVal e As System.EventArgs)
+            _showBottomBorder()
         End Sub
 
         Protected Overrides Sub OnTextChanged(ByVal e As EventArgs)
@@ -179,6 +206,28 @@ Namespace Win
 
 #End Region
 #Region " Method "
+
+        Private Sub _showBottomBorder()
+            Try
+                If _bottomBorder.Parent IsNot Nothing Then
+                    Return
+                End If
+                If _bottomBorderColor.Equals(Color.Empty) Then
+                    _bottomBorder.Visible = False
+                    Return
+                End If
+
+                _bottomBorder.Visible = True
+                _bottomBorder.Dock = DockStyle.None
+                _bottomBorder.Top = Me.Top + Me.Height - 1
+                _bottomBorder.Left = Me.Left
+                _bottomBorder.Width = Me.Width
+                Parent.Controls.Add(_bottomBorder)
+                _bottomBorder.BringToFront()
+            Catch ex As System.ObjectDisposedException
+                ' 画面を閉じると発生してしまうが回避方法がつかめないので Try-Catch
+            End Try
+        End Sub
 
         Private Sub _timer_Tick(ByVal sender As Object, ByVal e As EventArgs)
             _timer.Enabled = False

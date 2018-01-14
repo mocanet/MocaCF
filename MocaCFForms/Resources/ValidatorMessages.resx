@@ -117,10 +117,83 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="E000" xml:space="preserve">
+    <value>処理中にエラーが発生しました</value>
+  </data>
+  <data name="E001" xml:space="preserve">
+    <value>必須項目です</value>
+  </data>
+  <data name="E002" xml:space="preserve">
+    <value>{0}文字以内で入力です</value>
+  </data>
+  <data name="E003" xml:space="preserve">
+    <value>{0}バイト以内で入力です
+【半角:1バイト 全角:2バイト】</value>
+  </data>
+  <data name="E004" xml:space="preserve">
+    <value>{0}文字以上で入力です</value>
+  </data>
+  <data name="E005" xml:space="preserve">
+    <value>日付入力です</value>
+  </data>
+  <data name="E006" xml:space="preserve">
+    <value>半角英数入力です</value>
+  </data>
+  <data name="E007" xml:space="preserve">
+    <value>メールアドレス入力です</value>
+  </data>
+  <data name="E008" xml:space="preserve">
+    <value>{0}以上の入力です</value>
+  </data>
+  <data name="E009" xml:space="preserve">
+    <value>{0}以下の入力です</value>
+  </data>
+  <data name="E010" xml:space="preserve">
+    <value>数値入力です</value>
+  </data>
+  <data name="E011" xml:space="preserve">
+    <value>個人コードまたはパスワードが不正です</value>
+  </data>
+  <data name="E012" xml:space="preserve">
+    <value>個人コードの入力です</value>
+  </data>
   <data name="E013" xml:space="preserve">
-    <value>個人コードが登録されていません．</value>
+    <value>個人コードが未登録です</value>
+  </data>
+  <data name="E014" xml:space="preserve">
+    <value>パスワードの期限切れです</value>
+  </data>
+  <data name="E015" xml:space="preserve">
+    <value>パスワードが違うようです</value>
   </data>
   <data name="E016" xml:space="preserve">
-    <value>権限がありません．</value>
+    <value>権限がありません</value>
+  </data>
+  <data name="E017" xml:space="preserve">
+    <value>データが存在しません</value>
+  </data>
+  <data name="E018" xml:space="preserve">
+    <value>入力誤りです</value>
+  </data>
+  <data name="E019" xml:space="preserve">
+    <value>データを入力してください</value>
+  </data>
+  <data name="E020" xml:space="preserve">
+    <value>{0}より大きい数値の入力です</value>
+  </data>
+  <data name="E021" xml:space="preserve">
+    <value>{0}より小さい数値の入力です</value>
+  </data>
+  <data name="E022" xml:space="preserve">
+    <value>符号なし数値の入力です</value>
+  </data>
+  <data name="E023" xml:space="preserve">
+    <value>{0}より大きい日付の入力です</value>
+  </data>
+  <data name="E024" xml:space="preserve">
+    <value>このユーザーは使用できません</value>
+  </data>
+  <data name="E025" xml:space="preserve">
+    <value>整数{0}桁，小数{1}桁入力です</value>
   </data>
 </root>

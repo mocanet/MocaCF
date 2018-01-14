@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,82 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BackColor" xml:space="preserve">
-    <value>255,255,255</value>
-  </data>
-  <data name="btnF1BackColor" xml:space="preserve">
-    <value>229,0,0</value>
-  </data>
-  <data name="btnF2BackColor" xml:space="preserve">
-    <value>0,0,255</value>
-  </data>
-  <data name="btnF3BackColor" xml:space="preserve">
-    <value>0,192,0</value>
-  </data>
-  <data name="btnF4BackColor" xml:space="preserve">
-    <value>255,215,0</value>
-  </data>
-  <data name="ContentColor" xml:space="preserve">
-    <value>255,255,255</value>
-  </data>
-  <data name="DefaultWindowSize" xml:space="preserve">
-    <value>240,320</value>
-  </data>
-  <data name="PrimaryTextColor" xml:space="preserve">
-    <value>33,33,33</value>
-  </data>
-  <data name="btnF1ForeColor" xml:space="preserve">
-    <value>255,255,255</value>
-  </data>
-  <data name="btnF2ForeColor" xml:space="preserve">
-    <value>255,255,255</value>
-  </data>
-  <data name="btnF3ForeColor" xml:space="preserve">
-    <value>51,51,51</value>
-  </data>
-  <data name="btnF4ForeColor" xml:space="preserve">
-    <value>51,51,51</value>
-  </data>
-  <data name="ActionButtonBackColor" xml:space="preserve">
-    <value>63, 81, 181</value>
-  </data>
-  <data name="ActionButtonForeColor" xml:space="preserve">
-    <value>255,255,255</value>
-  </data>
-  <data name="btnLogoffBackColor" xml:space="preserve">
-    <value>212,208,200</value>
-  </data>
-  <data name="btnLogoffForeColor" xml:space="preserve">
-    <value>51,51,51</value>
-  </data>
-  <data name="FormBorderColor" xml:space="preserve">
-    <value>0, 120, 215</value>
-  </data>
-  <data name="ErrorBackColor" xml:space="preserve">
-    <value>232,17,35</value>
-    <comment>R:232 G:17 B:35  #E81123</comment>
-  </data>
-  <data name="ErrorForeColor" xml:space="preserve">
-    <value>32,32,32</value>
-  </data>
-  <data name="InformationBackColor" xml:space="preserve">
-    <value>230, 230, 230</value>
-  </data>
-  <data name="InformationForeColor" xml:space="preserve">
-    <value>26, 26, 26</value>
-  </data>
-  <data name="QuestionBackColor" xml:space="preserve">
-    <value>118,185,237</value>
-    <comment>R:118 G:185 B:237  #76B9ED</comment>
-  </data>
-  <data name="QuestionForeColor" xml:space="preserve">
-    <value>64, 64, 64</value>
-  </data>
-  <data name="WarningBackColor" xml:space="preserve">
-    <value>255,211,92</value>
-    <comment>R:255 G:211 B:92  #FFD35C</comment>
-  </data>
-  <data name="WarningForeColor" xml:space="preserve">
-    <value>145, 111, 53</value>
-  </data>
+  <metadata name="$this.FormFactorShadowProperty" xml:space="preserve">
+    <value>WEBPAD</value>
+  </metadata>
+  <metadata name="$this.Skin" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
 </root>

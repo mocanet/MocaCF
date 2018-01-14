@@ -69,15 +69,49 @@ Namespace Win
 
 #End Region
 
+        Protected Overrides Sub OnCurrentCellChanged(ByVal e As System.EventArgs)
+            If DataSource IsNot Nothing Then
+                If Not DataSource.Rows.Count.Equals(0) Then
+                    ClearSelected()
+                    [Select](CurrentCell.RowNumber)
+                End If
+            End If
+
+            MyBase.OnCurrentCellChanged(e)
+        End Sub
+
+        Public Sub ClearSelected()
+            If DataSource Is Nothing Then
+                Return
+            End If
+
+            For ii As Integer = 0 To DataSource.Rows.Count - 1
+                UnSelect(ii)
+            Next
+        End Sub
+
+        Protected Overrides Sub OnLostFocus(ByVal e As System.EventArgs)
+            If DataSource IsNot Nothing Then
+                If Not DataSource.Rows.Count.Equals(0) Then
+                    [Select](CurrentCell.RowNumber)
+                End If
+            End If
+
+            MyBase.OnLostFocus(e)
+        End Sub
+
         Public Shadows Property DataSource() As DataTable
             Get
                 Return MyBase.DataSource
             End Get
             Set(ByVal value As DataTable)
+                MyBase.DataSource = value
+                If value Is Nothing Then
+                    Return
+                End If
                 _tableStyle.MappingName = value.TableName
                 TableStyles.Clear()
                 TableStyles.Add(_tableStyle)
-                MyBase.DataSource = value
             End Set
         End Property
 
@@ -191,6 +225,7 @@ Namespace Win
                     .MappingName = mappingName
                     .FormatInfo = Nothing
                     .Format = attrColStyle.Format
+                    .NullText = attrColStyle.NullValue
                     '.Alignment = attrColStyle.Align
                     If attrColStyle.Width >= 0 Then
                         .Width = attrColStyle.Width

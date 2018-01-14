@@ -4,6 +4,23 @@ Imports System.Windows.Forms
 
 Namespace Win
 
+#Region " Delegate "
+
+    ''' <summary>
+    ''' アクション処理の検証イベントデリゲート
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Public Delegate Sub ControlValidatingEventHandler(ByVal sender As Object, ByVal e As ControlValidatingEventArgs)
+
+#End Region
+
+    ''' <summary>
+    ''' モデルとコントロールのバインダー
+    ''' </summary>
+    ''' <typeparam name="TTable"></typeparam>
+    ''' <typeparam name="TRow"></typeparam>
+    ''' <remarks></remarks>
     Public Class ControlBinder(Of TTable, TRow)
         Implements IDisposable, IControlBinder
 
@@ -21,6 +38,11 @@ Namespace Win
         Private _addRowMethod As Reflection.MethodInfo
 
 #End Region
+
+        ''' <summary>
+        ''' コントロールの検証
+        ''' </summary>
+        Public Event VerifyControl As ControlValidatingEventHandler
 
 #Region " コンストラクタ "
 
@@ -151,17 +173,31 @@ Namespace Win
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Function GetChanges() As IList
-            Dim lst As IList = New List(Of TRow)
+        Public Overloads Function GetChanges() As DataTable
+            Dim dt As DataTable
+
+            BindSrc.EndEdit()
 
             If _dataBinder.BindSrc.DataSource IsNot Nothing Then
-                lst = (From item As Object In CType(_dataBinder.BindSrc.DataSource, DataTable).Rows _
-                       Where (CType(item, DataRow).RowState <> DataRowState.Unchanged) _
-                       Select item).ToList
+                dt = dataSource.GetChanges()
+            Else
+                dt = Util.ClassUtil.NewInstance(GetType(TTable))
             End If
 
-            Return lst
+            Return dt
         End Function
+
+        'Public Overloads Function GetChanges() As IList
+        '    Dim lst As IList = New List(Of TRow)
+
+        '    If _dataBinder.BindSrc.DataSource IsNot Nothing Then
+        '        lst = (From item As Object In CType(_dataBinder.BindSrc.DataSource, DataTable).Rows _
+        '               Where (CType(item, DataRow).RowState <> DataRowState.Unchanged) _
+        '               Select item).ToList
+        '    End If
+
+        '    Return lst
+        'End Function
 
 #End Region
 
@@ -184,7 +220,12 @@ Namespace Win
         ''' </summary>
         ''' <returns></returns>
         Public Function HasChanges() As Boolean
-            Return (Not GetChanges().Count.Equals(0))
+            Dim dt As DataTable
+            dt = GetChanges()
+            If dt Is Nothing Then
+                Return False
+            End If
+            Return (Not dt.Rows.Count.Equals(0))
         End Function
 
 #Region " Clear "
@@ -241,7 +282,13 @@ Namespace Win
                         cbo.Refresh()
                     End If
                 Else
-                    target.Text = String.Empty
+                    target.Text = Nothing
+                    Dim b As Binding = target.DataBindings.Item(0)
+                    Dim source As BindingSource = b.DataSource
+                    Dim bindingField As String = b.BindingMemberInfo.BindingField
+                    Dim dataSourceNullValue As Object = b.DataSourceNullValue
+                    Dim drv As DataRowView = source.Current
+                    drv.Row(bindingField) = dataSourceNullValue
                 End If
             End If
 
@@ -267,12 +314,15 @@ Namespace Win
 #Region " Label "
 
         Public Overloads Function Binding(ByVal ctrl As Label, ByVal dataMember As String) As BindComponentContext
-            _dataBinder.DataBinding(ctrl, dataMember)
-            Return _binding(ctrl, False)
+            Return Binding(ctrl, dataMember, String.Empty)
         End Function
 
         Public Overloads Function Binding(ByVal ctrl As Label, ByVal dataMember As String, ByVal formatString As String) As BindComponentContext
-            _dataBinder.DataBinding(ctrl, dataMember, Nothing, Nothing, formatString)
+            Return Binding(ctrl, dataMember, formatString, Nothing)
+        End Function
+
+        Public Overloads Function Binding(ByVal ctrl As Label, ByVal dataMember As String, ByVal formatString As String, ByVal dataSourceNullValue As Object) As BindComponentContext
+            _dataBinder.DataBinding(ctrl, dataMember, dataSourceNullValue, Nothing, formatString)
             Return _binding(ctrl, False)
         End Function
 
@@ -314,6 +364,77 @@ Namespace Win
         End Function
 
 #End Region
+
+        ''' <summary>
+        ''' 入力値検証
+        ''' </summary>
+        ''' <returns>ErrorIconAlignment.MiddleRight で検証します</returns>
+        Public Function Verify() As Boolean
+            Dim rc As Boolean = True
+
+            For Each ctrl As BindComponentContext In _controls.Values
+                _validator.ValidTypes = Util.ValidateTypes.None
+                _validator.IgnoreValidTypes = Util.ValidateTypes.None
+
+                If TypeOf ctrl.TargetControl Is Control Then
+                    If ctrl.Required Then
+                        _validator.ValidTypes = Util.ValidateTypes.Required
+                    Else
+                        _validator.IgnoreValidTypes = Util.ValidateTypes.Required
+                    End If
+                    If Not _validator.IsValid(CType(ctrl.TargetControl, Control), ctrl.MessageControl) Then
+                        rc = False
+                        Continue For
+                    End If
+                End If
+                'If TypeOf ctrl.TargetControl Is RadioButtonGroup Then
+                '    Dim rbg As RadioButtonGroup = ctrl.TargetControl
+                '    If ctrl.Required Then
+                '        _validator.ValidTypes = ValidateTypes.Required
+                '    Else
+                '        _validator.IgnoreValidTypes = ValidateTypes.Required
+                '    End If
+                '    If Not _validator.IsValid(rbg, ctrl.MessageControl) Then
+                '        rc = False
+                '        Continue For
+                '    End If
+                'End If
+
+                For Each verifyContext As ComponentVerifyContext In ctrl.Verify
+                    If Not _validator.IsValid(ctrl.TargetControl, verifyContext.Verify) Then
+                        rc = False
+                        If verifyContext.ContinueOnVerifyFailure Then
+                            Continue For
+                        End If
+                        Exit For
+                    End If
+                Next
+
+                Dim e As New ControlValidatingEventArgs(ctrl.TargetControl, _validator)
+                e.IsValid = True
+                OnVerifyControl(e)
+                If Not e.IsValid Then
+                    rc = False
+                End If
+                If rc Then
+                    Continue For
+                End If
+                If ctrl.ContinueOnVerifyFailure Then
+                    Continue For
+                End If
+                Exit For
+            Next
+
+            Return rc
+        End Function
+
+        ''' <summary>
+        ''' 検証イベント
+        ''' </summary>
+        ''' <param name="e"></param>
+        Protected Overridable Sub OnVerifyControl(ByVal e As ControlValidatingEventArgs)
+            RaiseEvent VerifyControl(Me, e)
+        End Sub
 
 #End Region
 

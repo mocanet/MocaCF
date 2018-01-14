@@ -23,6 +23,25 @@ Namespace Util
             Return Activator.CreateInstance(type)
         End Function
 
+        Public Shared Function NewInstance(ByVal type As Type, ByVal args() As Object) As Object
+            If args Is Nothing Then
+                Return NewInstance(type)
+            End If
+
+            Dim lstTypes As New List(Of Type)()
+            For Each arg In args
+                lstTypes.Add(arg.GetType())
+            Next
+
+            Dim ctor As ConstructorInfo
+            ctor = type.GetConstructor(lstTypes.ToArray())
+            If ctor Is Nothing Then
+                Return Nothing
+            End If
+
+            Return ctor.Invoke(args)
+        End Function
+
 #If net20 Then
 #Else
 

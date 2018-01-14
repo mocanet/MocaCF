@@ -1,13 +1,24 @@
-﻿Imports System.Windows.Forms
+﻿
+Imports System.Windows.Forms
 Imports System.ComponentModel
 
 Namespace Win
 
+    ''' <summary>
+    ''' 処理画面
+    ''' </summary>
+    ''' <remarks></remarks>
     Public Class ChildForm
 
 #Region " Declare "
 
-        Private _ownerForm As CoreForm
+        ''' <summary>
+        ''' 開始処理イベント
+        ''' </summary>
+        ''' <param name="sender"></param>
+        ''' <param name="e"></param>
+        ''' <remarks></remarks>
+        Public Event Startup(ByVal sender As Object, ByVal e As EventArgs)
 
 #End Region
 
@@ -27,10 +38,22 @@ Namespace Win
             FormBorderStyle = Windows.Forms.FormBorderStyle.None
             pnlContents.BackColor = Drawing.Color.Transparent
 
-            If DesignMode Then
+            If UIHelper.DesignMode(Me) Then
                 Return
             End If
 
+            _actionInit()
+        End Sub
+
+        ''' <summary>
+        ''' コンストラクタ
+        ''' </summary>
+        ''' <param name="args"></param>
+        ''' <remarks></remarks>
+        Public Sub New(ByVal args As ChildFormArgs)
+            Me.New()
+
+            _args = args
         End Sub
 
 #End Region
@@ -51,8 +74,13 @@ Namespace Win
             End Get
             Set(ByVal value As CoreForm)
                 _ownerForm = value
+                _ownerMainForm = DirectCast(_ownerForm, MainForm)
+                setControlStyle(pnlContents.Controls)
+
+                OnStartup(EventArgs.Empty)
             End Set
         End Property
+        Private _ownerForm As CoreForm
 
         ''' <summary>
         ''' 表示開始時のフォーカスコントロール
@@ -80,38 +108,55 @@ Namespace Win
                 Return _args
             End Get
         End Property
-
-#End Region
-
-        Protected Overrides Sub OnShown(ByVal e As System.EventArgs)
-            MyBase.OnShown(e)
-
-            If StartFocusControl Is Nothing Then
-                Return
-            End If
-            StartFocusControl.Focus()
-        End Sub
-
-#Region " Handles "
-
-        Private Sub ChildForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
-            'Me.setControlStyle(pnlContents.Controls)
-        End Sub
-
-        Private Sub pnlContents_ParentChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles pnlContents.ParentChanged
-            If Me.Equals(pnlContents.Parent) Then
-                Return
-            End If
-        End Sub
-
-#End Region
-
-#Region " Method "
-
         Private _args As ChildFormArgs
 
-        Friend Sub SetArgs(ByVal args As ChildFormArgs)
-            _args = args
+        ''' <summary>
+        ''' アラートメッセージ
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Protected ReadOnly Property AlertMessage() As AlertMessage
+            Get
+                Return ownerMainForm.AlertMessage1
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' メインフォームインスタンス
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Protected ReadOnly Property ownerMainForm() As MainForm
+            Get
+                Return _ownerMainForm
+            End Get
+        End Property
+        Private _ownerMainForm As MainForm
+
+#End Region
+
+#Region " Action "
+
+        ''' <summary>
+        ''' 初期化
+        ''' </summary>
+        ''' <remarks></remarks>
+        Private Sub _actionInit()
+            Me.setControlStyle(pnlContents.Controls)
+        End Sub
+
+#End Region
+#Region " Method "
+
+        ''' <summary>
+        ''' 開始処理イベント実行
+        ''' </summary>
+        ''' <param name="e"></param>
+        ''' <remarks></remarks>
+        Protected Overridable Sub OnStartup(ByVal e As System.EventArgs)
+            RaiseEvent Startup(Me, e)
         End Sub
 
         ''' <summary>
@@ -133,10 +178,19 @@ Namespace Win
             If TypeOf _ownerForm Is MainForm Then
                 DirectCast(_ownerForm, MainForm).MyClose()
             End If
-            'If TypeOf _ownerForm Is SubForm Then
-            '    _ownerForm.Close()
-            'End If
         End Sub
+
+        ''' <summary>
+        ''' 画面を閉じる（メイン画面から呼ばれる）
+        ''' </summary>
+        Friend Sub Close2()
+            pnlContents.Visible = False
+            pnlContents.Dispose()
+            pnlContents = Nothing
+            MyBase.Close()
+        End Sub
+
+#Region " ShowChildForm "
 
         ''' <summary>
         ''' 画面表示
@@ -148,7 +202,7 @@ Namespace Win
                 Return
             End If
 
-            _mainForm.ShowChildForm(typ)
+            ownerMainForm.ShowChildForm(typ)
         End Sub
 
         ''' <summary>
@@ -162,7 +216,7 @@ Namespace Win
                 Return
             End If
 
-            _mainForm.ShowChildForm(typ, value)
+            ownerMainForm.ShowChildForm(typ, value)
         End Sub
 
         ''' <summary>
@@ -177,24 +231,10 @@ Namespace Win
                 Return
             End If
 
-            _mainForm.ShowChildForm(command, typ, value)
+            ownerMainForm.ShowChildForm(command, typ, value)
         End Sub
 
-        ''' <summary>
-        ''' 画面を閉じる（メイン画面から呼ばれる）
-        ''' </summary>
-        Friend Sub Close2()
-            pnlContents.Visible = False
-            pnlContents.Dispose()
-            pnlContents = Nothing
-            MyBase.Close()
-        End Sub
-
-        Private ReadOnly Property _mainForm() As MainForm
-            Get
-                Return DirectCast(OwnerForm, Moca.Win.MainForm)
-            End Get
-        End Property
+#End Region
 
 #End Region
 

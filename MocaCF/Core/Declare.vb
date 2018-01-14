@@ -14,14 +14,13 @@ End Enum
 #Region " Enum DesignSettingKeys "
 
 Public Enum DesignSettingKeys As Integer
+
     PrimaryTextColor
     BackColor
 
     DefaultWindowSize
 
     ContentColor
-
-    ImgUser
 
     ActionButtonBackColor
     ActionButtonForeColor
@@ -43,6 +42,16 @@ Public Enum DesignSettingKeys As Integer
 
     FormBorderColor
     HeaderFont
+
+    InformationBackColor
+    InformationForeColor
+    ErrorBackColor
+    ErrorForeColor
+    WarningBackColor
+    WarningForeColor
+    QuestionBackColor
+    QuestionForeColor
+
 End Enum
 
 #End Region

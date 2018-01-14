@@ -11,19 +11,19 @@ Namespace Win
 #Region " Declare"
 
         ''' <summary>ウィンドウアニメーション</summary>
-        Private _animateWindow As Moca.Win.AnimateWindow
+        Private _animateWindow As AnimateWindow
 
         Private _DefaultMessageBackColor As Color = Color.FromArgb(95, 187, 242)
-        Private _DefaultMessageForeColor As Color = Color.FromArgb(64, 64, 64)
+        Private _DefaultMessageForeColor As Color = Color.FromArgb(51, 51, 51)
         Private _ErrorBackColor As Color = Color.FromArgb(220, 60, 0)
         Private _ErrorForeColor As Color = Color.White
         Private _SuccessBackColor As Color = Color.FromArgb(70, 136, 71)
         Private _SuccessForeColor As Color = Color.White
         Private _WarnBackColor As Color = Color.FromArgb(255, 211, 92)
-        Private _WarnForeColor As Color = Color.FromArgb(64, 64, 64)
-        Private _DirectionType As Moca.Win.AnimateWindow.DirectionType = AnimateWindow.DirectionType.Top
-        Private _AutoCloseSecond As Integer
-        Private _FullClickClose As Boolean = False
+        Private _WarnForeColor As Color = Color.FromArgb(51, 51, 51)
+        Private _DirectionType As AnimateWindow.DirectionType = AnimateWindow.DirectionType.Top
+        Private _AutoCloseSecond As Integer = 4
+        Private _FullClickClose As Boolean = True
         Private _font As Font = MyBase.Font
         Private _text As String
         Private _format As New StringFormat()
@@ -43,18 +43,18 @@ Namespace Win
             ' この呼び出しはデザイナーで必要です。
             InitializeComponent()
 
-            If Moca.Win.UIHelper.DesignMode(Me) Then
-                Return
-            End If
-
-            Clear()
-
             Me.TabStop = False
 
             _format.Alignment = StringAlignment.Center
             _format.LineAlignment = StringAlignment.Center
 
-            _animateWindow = New Moca.Win.AnimateWindow
+            If UIHelper.DesignMode(Me) Then
+                Return
+            End If
+
+            Clear()
+
+            _animateWindow = New AnimateWindow
         End Sub
 
         Private Sub InitializeComponent()
@@ -200,6 +200,7 @@ Namespace Win
             End Get
             Set(ByVal value As String)
                 _text = value
+                Invalidate()
             End Set
         End Property
 
@@ -215,6 +216,7 @@ Namespace Win
             End Get
             Set(ByVal value As Font)
                 _font = value
+                Invalidate()
             End Set
         End Property
 
@@ -225,26 +227,26 @@ Namespace Win
         ''' <returns></returns>
         ''' <remarks></remarks>
         <DefaultValue(AnimateWindow.DirectionType.Top)> _
-        Public Property DirectionType() As Moca.Win.AnimateWindow.DirectionType
+        Public Property DirectionType() As AnimateWindow.DirectionType
             Get
                 Return _DirectionType
             End Get
-            Set(ByVal value As Moca.Win.AnimateWindow.DirectionType)
+            Set(ByVal value As AnimateWindow.DirectionType)
                 _DirectionType = value
             End Set
         End Property
 
-        <DefaultValue(False)> _
+        <DefaultValue(True)> _
         Public Property FullClickClose() As Boolean
             Get
                 Return _FullClickClose
             End Get
             Set(ByVal value As Boolean)
-                _FullClickClose = Not value
+                _FullClickClose = value
             End Set
         End Property
 
-        <DefaultValue(0)> _
+        <DefaultValue(4)> _
         Public Property AutoCloseSecond() As Integer
             Get
                 Return _AutoCloseSecond
@@ -260,7 +262,7 @@ Namespace Win
             End Get
             Set(ByVal value As Boolean)
                 MyBase.Visible = value
-                If Moca.Win.UIHelper.DesignMode(Me) Then
+                If UIHelper.DesignMode(Me) Then
                     Return
                 End If
                 OnVisibleChanged()
@@ -282,7 +284,7 @@ Namespace Win
         Private Sub _alertClose()
             Timer1.Enabled = False
 
-            Dim dt As Moca.Win.AnimateWindow.DirectionType
+            Dim dt As AnimateWindow.DirectionType
             Select Case _DirectionType
                 Case AnimateWindow.DirectionType.Top
                     dt = AnimateWindow.DirectionType.Bottom
@@ -416,10 +418,7 @@ Namespace Win
             Me.ForeColor = labelForeColor
             Me.Text = String.Format(msg, args)
 
-            If Me.Parent Is Nothing Then
-                Return
-            End If
-
+            Me.BringToFront()
             _animateWindow.Slide(Me, _DirectionType)
 
             Me.Refresh()
@@ -435,55 +434,53 @@ Namespace Win
 #End Region
 
         Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
-            Dim brush As New SolidBrush(Me.ForeColor)
-
-            xDrawString(Text, Font, brush, e.Graphics, e.ClipRectangle, _format)
+            _draw(e.Graphics, e.ClipRectangle)
         End Sub
 
-        Private Sub xDrawString(ByVal text As String, ByVal font As Font, _
+        Private Sub _draw(ByVal g As Graphics, ByVal rect As Rectangle)
+            Dim brush As New SolidBrush(Me.ForeColor)
+            _drawString(Text, Font, brush, g, rect, _format)
+        End Sub
+
+        Private Sub _drawString(ByVal text As String, ByVal font As Font, _
             ByVal brush As SolidBrush, ByVal g As Graphics, _
             ByVal rec As Rectangle, ByVal format As StringFormat)
 
-            If text.IndexOf(vbLf) > 0 Then
-                'Multi Line
-                'Make array of lines
-                Dim strArray() As String
-                strArray = text.Split(vbLf)
-
-                'make a new rec the size of one line
-                Dim lineSize As SizeF = g.MeasureString(strArray(0), font)
-                Dim lineRec As New Rectangle
-                lineRec = rec
-                lineRec.Height = lineSize.Height
-
-                'Set the top of the first line
-                Dim firstLineTop As Integer
-                Select Case format.LineAlignment
-
-                    Case StringAlignment.Near
-                        firstLineTop = rec.Top
-
-                    Case StringAlignment.Center
-                        firstLineTop = (rec.Height / 2) - ((lineSize.Height * strArray.Length) / 2) + rec.Top
-
-                    Case StringAlignment.Far
-                        firstLineTop = (rec.Height) - (lineSize.Height * (strArray.Length)) + rec.Top
-                End Select
-
-                'Draw all lines
-                Dim i As Integer
-                format.LineAlignment = StringAlignment.Near
-
-                For i = 0 To strArray.Length - 1
-                    lineRec.Location = New Point(lineRec.Left, (lineSize.Height * i) + firstLineTop)
-                    g.DrawString(strArray(i), font, brush, lineRec, format)
-                Next
-
-            Else
-                'One line
+            If text.IndexOf(vbCrLf) < 0 Then
+                ' 一行
                 g.DrawString(text, font, brush, rec, format)
+                Return
             End If
 
+            ' 複数行
+
+            Dim strArray() As String
+            strArray = text.Split(vbCrLf)
+
+            Dim lineSize As SizeF = g.MeasureString(strArray(0), font)
+            Dim lineRec As New Rectangle
+            lineRec = rec
+            lineRec.Height = lineSize.Height
+
+            Dim firstLineTop As Integer
+            Select Case format.LineAlignment
+
+                Case StringAlignment.Near
+                    firstLineTop = rec.Top
+
+                Case StringAlignment.Center
+                    firstLineTop = (rec.Height / 2) - ((lineSize.Height * strArray.Length) / 2) + rec.Top
+
+                Case StringAlignment.Far
+                    firstLineTop = (rec.Height) - (lineSize.Height * (strArray.Length)) + rec.Top
+            End Select
+
+            format.LineAlignment = StringAlignment.Near
+
+            For ii As Integer = 0 To strArray.Length - 1
+                lineRec.Location = New Point(lineRec.Left, (lineSize.Height * ii) + firstLineTop)
+                g.DrawString(strArray(ii), font, brush, lineRec, format)
+            Next
         End Sub
 
     End Class

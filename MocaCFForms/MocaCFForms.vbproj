@@ -85,7 +85,23 @@
   <ItemGroup>
     <Compile Include="Core\CoreSettings.vb" />
     <Compile Include="Core\Declare.vb" />
+    <Compile Include="Resources\Messages.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\ActionValidatingEventArgs.vb" />
+    <Compile Include="UI\Controls\MLabel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ControlValidatingEventArgs.vb" />
     <Compile Include="UI\FormAction.vb" />
+    <Compile Include="UI\Forms\MessageForm.Designer.vb">
+      <DependentUpon>MessageForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\MessageForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UI\IFormAction.vb" />
     <Compile Include="Core\PInvoke.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -98,11 +114,6 @@
       <DependentUpon>DesignSettings.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Resources\Messages.Designer.vb">
-      <DependentUpon>Messages.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Resources\MyFormValidate.Designer.vb">
       <DependentUpon>MyFormValidate.resx</DependentUpon>
@@ -207,9 +218,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Messages.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.vb</LastGenOutput>
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\MyFormValidate.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -233,6 +244,9 @@
     <EmbeddedResource Include="UI\Forms\MainForm.resx">
       <DependentUpon>MainForm.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\MessageForm.resx">
+      <DependentUpon>MessageForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ProgressWindowForm.resx">
       <DependentUpon>ProgressWindowForm.vb</DependentUpon>
     </EmbeddedResource>
@@ -249,7 +263,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DesignTimeAttributes.xmta" />
-    <None Include="Resources\user.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.VisualBasic.targets" />
   <ProjectExtensions>

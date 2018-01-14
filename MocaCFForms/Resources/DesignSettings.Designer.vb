@@ -197,6 +197,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  232,17,35 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend Shared ReadOnly Property ErrorBackColor() As String
+            Get
+                Return ResourceManager.GetString("ErrorBackColor", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  32,32,32 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend Shared ReadOnly Property ErrorForeColor() As String
+            Get
+                Return ResourceManager.GetString("ErrorForeColor", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  0, 120, 215 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend Shared ReadOnly Property FormBorderColor() As String
@@ -205,10 +223,21 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend Shared ReadOnly Property ImgUser() As System.Drawing.Bitmap
+        '''<summary>
+        '''  230, 230, 230 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend Shared ReadOnly Property InformationBackColor() As String
             Get
-                Dim obj As Object = ResourceManager.GetObject("ImgUser", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
+                Return ResourceManager.GetString("InformationBackColor", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  26, 26, 26 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend Shared ReadOnly Property InformationForeColor() As String
+            Get
+                Return ResourceManager.GetString("InformationForeColor", resourceCulture)
             End Get
         End Property
         
@@ -218,6 +247,42 @@ Namespace My.Resources
         Friend Shared ReadOnly Property PrimaryTextColor() As String
             Get
                 Return ResourceManager.GetString("PrimaryTextColor", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  118,185,237 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend Shared ReadOnly Property QuestionBackColor() As String
+            Get
+                Return ResourceManager.GetString("QuestionBackColor", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  64, 64, 64 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend Shared ReadOnly Property QuestionForeColor() As String
+            Get
+                Return ResourceManager.GetString("QuestionForeColor", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  255,211,92 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend Shared ReadOnly Property WarningBackColor() As String
+            Get
+                Return ResourceManager.GetString("WarningBackColor", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  145, 111, 53 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend Shared ReadOnly Property WarningForeColor() As String
+            Get
+                Return ResourceManager.GetString("WarningForeColor", resourceCulture)
             End Get
         End Property
     End Class

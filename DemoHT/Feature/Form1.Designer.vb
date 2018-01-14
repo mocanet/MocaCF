@@ -48,6 +48,10 @@ Partial Public Class Form1
         '
         'DataGridEx1
         '
+        Me.DataGridEx1.AlterNatingColor = System.Drawing.Color.WhiteSmoke
+        Me.DataGridEx1.BackgroundColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.DataGridEx1.Columns = Nothing
+        Me.DataGridEx1.DataSource = Nothing
         Me.DataGridEx1.Location = New System.Drawing.Point(353, 199)
         Me.DataGridEx1.Name = "DataGridEx1"
         Me.DataGridEx1.Size = New System.Drawing.Size(250, 169)
@@ -55,6 +59,7 @@ Partial Public Class Form1
         '
         'LabelEx1
         '
+        Me.LabelEx1.BottomBorderColor = System.Drawing.Color.Empty
         Me.LabelEx1.Location = New System.Drawing.Point(391, 108)
         Me.LabelEx1.Name = "LabelEx1"
         Me.LabelEx1.Size = New System.Drawing.Size(194, 66)
@@ -64,15 +69,17 @@ Partial Public Class Form1
         '
         Me.NumericUpDownEx1.Location = New System.Drawing.Point(395, 31)
         Me.NumericUpDownEx1.Name = "NumericUpDownEx1"
-        Me.NumericUpDownEx1.Size = New System.Drawing.Size(189, 58)
+        Me.NumericUpDownEx1.Size = New System.Drawing.Size(189, 24)
         Me.NumericUpDownEx1.TabIndex = 4
         '
         'TextBoxEx1
         '
+        Me.TextBoxEx1.BottomBorderColor = System.Drawing.Color.Empty
         Me.TextBoxEx1.Location = New System.Drawing.Point(214, 92)
         Me.TextBoxEx1.Name = "TextBoxEx1"
-        Me.TextBoxEx1.Size = New System.Drawing.Size(154, 42)
+        Me.TextBoxEx1.Size = New System.Drawing.Size(154, 23)
         Me.TextBoxEx1.TabIndex = 5
+        Me.TextBoxEx1.TextChangedCompleteDelay = 0
         '
         'Form1
         '
