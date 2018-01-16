@@ -44,6 +44,8 @@ Namespace Win
             TopMost = True
 
             _childStack = New Stack(Of ChildForm)
+            _LoginForm = Nothing
+            _DefaultChildForm = Nothing
 
             CoreSettings.Instance.MainForm = Me
 
@@ -68,6 +70,13 @@ Namespace Win
             End Set
         End Property
         Private _LimitterMaximumSize As Boolean
+
+        Protected Overridable ReadOnly Property LoginForm() As Type
+            Get
+                Return _LoginForm
+            End Get
+        End Property
+        Private _LoginForm As Type
 
         ''' <summary>
         ''' メニュー画面ではなく指定した画面を表示する場合にオーバーライドする
@@ -156,6 +165,10 @@ Namespace Win
 
             Me.pnlMain.BackColor = CoreSettings.Instance.DesignValue(DesignSettingKeys.ContentColor)
 
+            If LoginForm IsNot Nothing Then
+                ShowChildForm(LoginForm)
+                Return
+            End If
             _refresh(Nothing)
         End Sub
 

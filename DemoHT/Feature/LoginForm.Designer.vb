@@ -19,20 +19,37 @@ Partial Class LoginForm
     'コード エディタを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.ActionButton1 = New Moca.Win.ActionButton
+        Me.pnlContents.SuspendLayout()
         Me.SuspendLayout()
         '
         'pnlContents
         '
-        Me.pnlContents.Size = New System.Drawing.Size(638, 455)
+        Me.pnlContents.Controls.Add(Me.ActionButton1)
+        Me.pnlContents.Size = New System.Drawing.Size(238, 295)
+        '
+        'ActionButton1
+        '
+        Me.ActionButton1.Location = New System.Drawing.Point(29, 128)
+        Me.ActionButton1.Name = "ActionButton1"
+        Me.ActionButton1.Size = New System.Drawing.Size(180, 38)
+        Me.ActionButton1.TabIndex = 2
+        Me.ActionButton1.Text = "Test Form"
+        Me.ActionButton1.UpdateCheck = False
+        Me.ActionButton1.UpdateCheckCaption = Nothing
         '
         'LoginForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
-        Me.ClientSize = New System.Drawing.Size(638, 455)
+        Me.ClientSize = New System.Drawing.Size(238, 295)
+        Me.ControlBox = True
         Me.Name = "LoginForm"
+        Me.Text = "Login"
+        Me.pnlContents.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
+    Friend WithEvents ActionButton1 As Moca.Win.ActionButton
 
 End Class

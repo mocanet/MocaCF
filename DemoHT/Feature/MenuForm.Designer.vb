@@ -51,6 +51,8 @@ Partial Class MenuForm
         Me.ActionButton1.Size = New System.Drawing.Size(180, 38)
         Me.ActionButton1.TabIndex = 1
         Me.ActionButton1.Text = "Test Form"
+        Me.ActionButton1.UpdateCheck = False
+        Me.ActionButton1.UpdateCheckCaption = Nothing
         '
         'ActionButton2
         '
@@ -59,6 +61,8 @@ Partial Class MenuForm
         Me.ActionButton2.Size = New System.Drawing.Size(180, 38)
         Me.ActionButton2.TabIndex = 2
         Me.ActionButton2.Text = "ActionButton2"
+        Me.ActionButton2.UpdateCheck = False
+        Me.ActionButton2.UpdateCheckCaption = Nothing
         '
         'ActionButton3
         '
@@ -67,6 +71,8 @@ Partial Class MenuForm
         Me.ActionButton3.Size = New System.Drawing.Size(180, 38)
         Me.ActionButton3.TabIndex = 3
         Me.ActionButton3.Text = "ActionButton3"
+        Me.ActionButton3.UpdateCheck = False
+        Me.ActionButton3.UpdateCheckCaption = Nothing
         '
         'TextBoxEx1
         '
@@ -84,6 +90,8 @@ Partial Class MenuForm
         Me.ActionButton4.Size = New System.Drawing.Size(87, 31)
         Me.ActionButton4.TabIndex = 4
         Me.ActionButton4.Text = "Warning"
+        Me.ActionButton4.UpdateCheck = False
+        Me.ActionButton4.UpdateCheckCaption = Nothing
         '
         'ActionButton5
         '
@@ -92,6 +100,8 @@ Partial Class MenuForm
         Me.ActionButton5.Size = New System.Drawing.Size(87, 31)
         Me.ActionButton5.TabIndex = 5
         Me.ActionButton5.Text = "Error"
+        Me.ActionButton5.UpdateCheck = False
+        Me.ActionButton5.UpdateCheckCaption = Nothing
         '
         'ActionButton6
         '
@@ -100,6 +110,8 @@ Partial Class MenuForm
         Me.ActionButton6.Size = New System.Drawing.Size(87, 31)
         Me.ActionButton6.TabIndex = 6
         Me.ActionButton6.Text = "Question"
+        Me.ActionButton6.UpdateCheck = False
+        Me.ActionButton6.UpdateCheckCaption = Nothing
         '
         'ActionButton7
         '
@@ -108,6 +120,8 @@ Partial Class MenuForm
         Me.ActionButton7.Size = New System.Drawing.Size(87, 31)
         Me.ActionButton7.TabIndex = 7
         Me.ActionButton7.Text = "Information"
+        Me.ActionButton7.UpdateCheck = False
+        Me.ActionButton7.UpdateCheckCaption = Nothing
         '
         'MLabel1
         '

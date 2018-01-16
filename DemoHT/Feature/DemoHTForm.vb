@@ -17,6 +17,12 @@
         AlertMessage1.Success("テスト！")
     End Sub
 
+    Protected Overrides ReadOnly Property LoginForm() As System.Type
+        Get
+            Return GetType(LoginForm)
+        End Get
+    End Property
+
     Protected Overrides ReadOnly Property DefaultChildForm() As Moca.Win.ChildForm
         Get
             Return _menuForm
