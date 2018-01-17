@@ -66,11 +66,18 @@ Namespace Win
         Protected Overrides Sub OnGotFocus(ByVal e As System.EventArgs)
             MyBase.OnGotFocus(e)
             _drawRect(Me, True)
+
+            _isEnabledChange = True
+            Dim hsv As HsvColor
+            hsv = HsvColor.FromRgb(_backColor)
+            BackColor = HsvColor.ToRgb(hsv.H, hsv.S, hsv.V - 0.3)
         End Sub
 
         Protected Overrides Sub OnLostFocus(ByVal e As System.EventArgs)
             MyBase.OnLostFocus(e)
             _drawRect(Me, False)
+
+            BackColor = _backColor
         End Sub
 
         Protected Overrides Sub OnEnabledChanged(ByVal e As System.EventArgs)
