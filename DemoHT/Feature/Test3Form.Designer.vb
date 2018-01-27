@@ -43,6 +43,8 @@ Partial Class Test3Form
         Me.ActionButton1.Size = New System.Drawing.Size(153, 55)
         Me.ActionButton1.TabIndex = 0
         Me.ActionButton1.Text = "ExecuteProgress"
+        Me.ActionButton1.UpdateCheck = False
+        Me.ActionButton1.UpdateCheckCaption = Nothing
         '
         'ActionButton2
         '
@@ -50,6 +52,8 @@ Partial Class Test3Form
         Me.ActionButton2.Name = "ActionButton2"
         Me.ActionButton2.Size = New System.Drawing.Size(153, 55)
         Me.ActionButton2.TabIndex = 1
+        Me.ActionButton2.UpdateCheck = False
+        Me.ActionButton2.UpdateCheckCaption = Nothing
         '
         'ActionButton3
         '
@@ -58,6 +62,8 @@ Partial Class Test3Form
         Me.ActionButton3.Size = New System.Drawing.Size(153, 55)
         Me.ActionButton3.TabIndex = 2
         Me.ActionButton3.Text = "ExecuteSelectFile"
+        Me.ActionButton3.UpdateCheck = False
+        Me.ActionButton3.UpdateCheckCaption = Nothing
         '
         'ActionButton4
         '
@@ -66,6 +72,8 @@ Partial Class Test3Form
         Me.ActionButton4.Size = New System.Drawing.Size(153, 55)
         Me.ActionButton4.TabIndex = 3
         Me.ActionButton4.Text = "ExecuteSaveFile"
+        Me.ActionButton4.UpdateCheck = False
+        Me.ActionButton4.UpdateCheckCaption = Nothing
         '
         'MLabel1
         '

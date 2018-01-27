@@ -94,6 +94,9 @@
     <Compile Include="UI\Controls\MLabel.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Controls\PanelEx.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\ControlValidatingEventArgs.vb" />
     <Compile Include="UI\FormAction.vb" />
     <Compile Include="UI\Forms\MessageForm.Designer.vb">

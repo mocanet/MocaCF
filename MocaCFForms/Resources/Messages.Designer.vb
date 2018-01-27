@@ -75,6 +75,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  既にアプリが起動されています に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Public Shared ReadOnly Property E001() As String
+            Get
+                Return ResourceManager.GetString("E001", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  {0}しますか？
         '''
         '''入力したデータは保存されません． に類似しているローカライズされた文字列を検索します。

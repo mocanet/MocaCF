@@ -21,7 +21,7 @@ Namespace Win
         ''' <param name="ex">対象の例外</param>
         ''' <remarks></remarks>
         Public Sub ApplicationException(ByVal ex As System.Exception) Implements IApplicationExceptionListener.ApplicationException
-            UIHelper.ShowErrorMessageBox(My.Resources.Messages.E000, New String() {ex.Message})
+            UIHelper.ShowErrorMessageBox2(My.Resources.Messages.E000, New String() {ex.Message})
 
             _mylog.Error(ex)
 

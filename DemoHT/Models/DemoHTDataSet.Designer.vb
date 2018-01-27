@@ -225,7 +225,7 @@ Partial Public Class DemoHTDataSet
     Partial Public Class log4netDataTable
         Inherits Global.System.Data.TypedTableBase(Of log4netRow)
         
-        Private columnDate As Global.System.Data.DataColumn
+        Private columnLogDate As Global.System.Data.DataColumn
         
         Private columnThread As Global.System.Data.DataColumn
         
@@ -262,9 +262,9 @@ Partial Public Class DemoHTDataSet
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
-        Public ReadOnly Property DateColumn() As Global.System.Data.DataColumn
+        Public ReadOnly Property LogDateColumn() As Global.System.Data.DataColumn
             Get
-                Return Me.columnDate
+                Return Me.columnLogDate
             End Get
         End Property
         
@@ -324,9 +324,9 @@ Partial Public Class DemoHTDataSet
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
-        Public Overloads Function Addlog4netRow(ByVal _Date As Date, ByVal Thread As String, ByVal Level As String, ByVal Message As String, ByVal Exception As String) As log4netRow
+        Public Overloads Function Addlog4netRow(ByVal LogDate As Date, ByVal Thread As String, ByVal Level As String, ByVal Message As String, ByVal Exception As String) As log4netRow
             Dim rowlog4netRow As log4netRow = CType(Me.NewRow,log4netRow)
-            Dim columnValuesArray() As Object = New Object() {_Date, Thread, Level, Message, Exception}
+            Dim columnValuesArray() As Object = New Object() {LogDate, Thread, Level, Message, Exception}
             rowlog4netRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowlog4netRow)
             Return rowlog4netRow
@@ -346,7 +346,7 @@ Partial Public Class DemoHTDataSet
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
         Friend Sub InitVars()
-            Me.columnDate = MyBase.Columns("Date")
+            Me.columnLogDate = MyBase.Columns("LogDate")
             Me.columnThread = MyBase.Columns("Thread")
             Me.columnLevel = MyBase.Columns("Level")
             Me.columnMessage = MyBase.Columns("Message")
@@ -355,11 +355,8 @@ Partial Public Class DemoHTDataSet
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
         Private Sub InitClass()
-            Me.columnDate = New Global.System.Data.DataColumn("Date", GetType(Date), Nothing, Global.System.Data.MappingType.Element)
-            Me.columnDate.ExtendedProperties.Add("Generator_ColumnPropNameInTable", "DateColumn")
-            Me.columnDate.ExtendedProperties.Add("Generator_ColumnVarNameInTable", "columnDate")
-            Me.columnDate.ExtendedProperties.Add("Generator_UserColumnName", "Date")
-            MyBase.Columns.Add(Me.columnDate)
+            Me.columnLogDate = New Global.System.Data.DataColumn("LogDate", GetType(Date), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnLogDate)
             Me.columnThread = New Global.System.Data.DataColumn("Thread", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnThread)
             Me.columnLevel = New Global.System.Data.DataColumn("Level", GetType(String), Nothing, Global.System.Data.MappingType.Element)
@@ -507,16 +504,16 @@ Partial Public Class DemoHTDataSet
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
-        Public Property _Date() As Date
+        Public Property LogDate() As Date
             Get
                 Try 
-                    Return CType(Me(Me.tablelog4net.DateColumn),Date)
+                    Return CType(Me(Me.tablelog4net.LogDateColumn),Date)
                 Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("テーブル 'log4net' にある列 'Date' の値は DBNull です。", e)
+                    Throw New Global.System.Data.StrongTypingException("テーブル 'log4net' にある列 'LogDate' の値は DBNull です。", e)
                 End Try
             End Get
             Set
-                Me(Me.tablelog4net.DateColumn) = value
+                Me(Me.tablelog4net.LogDateColumn) = value
             End Set
         End Property
         
@@ -577,13 +574,13 @@ Partial Public Class DemoHTDataSet
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
-        Public Function Is_DateNull() As Boolean
-            Return Me.IsNull(Me.tablelog4net.DateColumn)
+        Public Function IsLogDateNull() As Boolean
+            Return Me.IsNull(Me.tablelog4net.LogDateColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
-        Public Sub Set_DateNull()
-            Me(Me.tablelog4net.DateColumn) = Global.System.Convert.DBNull
+        Public Sub SetLogDateNull()
+            Me(Me.tablelog4net.LogDateColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
@@ -749,7 +746,7 @@ Namespace DemoHTDataSetTableAdapters
             Dim tableMapping As Global.System.Data.Common.DataTableMapping = New Global.System.Data.Common.DataTableMapping
             tableMapping.SourceTable = "Table"
             tableMapping.DataSetTable = "log4net"
-            tableMapping.ColumnMappings.Add("Date", "Date")
+            tableMapping.ColumnMappings.Add("Date", "LogDate")
             tableMapping.ColumnMappings.Add("Thread", "Thread")
             tableMapping.ColumnMappings.Add("Level", "Level")
             tableMapping.ColumnMappings.Add("Message", "Message")

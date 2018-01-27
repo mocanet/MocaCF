@@ -68,7 +68,7 @@ Module SysMain
 
         Dim param As Moca.Log4net.Appender.DataSourceAppenderParameter
         param = New Moca.Log4net.Appender.DataSourceAppenderParameter()
-        param.ParameterName = "TimeStamp"
+        param.ParameterName = "LogDate"
         param.Layout = New log4net.Layout.RawTimeStampLayout()
         DataSourceAppender.AddParameter(param)
 

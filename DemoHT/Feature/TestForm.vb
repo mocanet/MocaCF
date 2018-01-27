@@ -23,4 +23,8 @@
         Throw New Exception("例外発生の" & vbCrLf & "テストです。")
     End Sub
 
+    Private Sub ActionButton2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ActionButton2.Click
+        ShowChildForm(GetType(ProcessListForm))
+    End Sub
+
 End Class

@@ -46,8 +46,8 @@ Namespace Win
             Me.AlertMessage1.Location = New System.Drawing.Point(0, 410)
             Me.AlertMessage1.Name = "AlertMessage1"
             Me.AlertMessage1.Size = New System.Drawing.Size(638, 45)
-            Me.AlertMessage1.SuccessBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(136, Byte), Integer), CType(CType(71, Byte), Integer))
-            Me.AlertMessage1.SuccessForeColor = System.Drawing.Color.White
+            Me.AlertMessage1.SuccessBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
+            Me.AlertMessage1.SuccessForeColor = System.Drawing.Color.FromArgb(CType(CType(51, Byte), Integer), CType(CType(51, Byte), Integer), CType(CType(51, Byte), Integer))
             Me.AlertMessage1.TabIndex = 1
             Me.AlertMessage1.TabStop = False
             Me.AlertMessage1.Text = "AlertMessage1"

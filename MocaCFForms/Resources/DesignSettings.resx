@@ -195,4 +195,8 @@
   <data name="WarningForeColor" xml:space="preserve">
     <value>145, 111, 53</value>
   </data>
+  <data name="FocusColor" xml:space="preserve">
+    <value>173,7,74</value>
+    <comment>0, 192, 0</comment>
+  </data>
 </root>

@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports System.Windows.Forms
+Imports System.IO
 
 ''' <summary>
 ''' コア共通設定値など
@@ -225,6 +226,29 @@ Public NotInheritable Class CoreSettings
         End Set
     End Property
     Private _mainForm As Form
+
+    ''' <summary>
+    ''' ファイルの読み取り専用属性を設定する
+    ''' </summary>
+    ''' <param name="fileName"></param>
+    ''' <param name="value"></param>
+    ''' <remarks></remarks>
+    Public Sub SetFileReadOnly(ByVal fileName As String, ByVal value As Boolean)
+        Dim fi As FileInfo = New FileInfo(fileName)
+        Dim attr As FileAttributes = fi.Attributes
+
+        If value Then
+            ' 読み取り専用属性を追加する
+            If (attr And FileAttributes.ReadOnly) <> FileAttributes.ReadOnly Then
+                fi.Attributes = fi.Attributes Or FileAttributes.ReadOnly
+            End If
+        Else
+            ' 読み取り専用属性を削除する
+            If (attr And FileAttributes.ReadOnly) = FileAttributes.ReadOnly Then
+                fi.Attributes = fi.Attributes And Not FileAttributes.ReadOnly
+            End If
+        End If
+    End Sub
 
 #End Region
 

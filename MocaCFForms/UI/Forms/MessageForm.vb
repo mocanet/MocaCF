@@ -130,6 +130,7 @@ Namespace Win
                 Screen.PrimaryScreen.WorkingArea.Width / 2 - Width / 2, _
                 Screen.PrimaryScreen.WorkingArea.Height / 2 - Height / 2)
 
+            TopMost = True
             _messageType = messageType
             lblHeader.Text = caption
             lblMessage.Text = text

@@ -24,6 +24,13 @@ Namespace Win
     Public Delegate Sub FormActionEventCallback(ByVal sender As Object, ByVal e As System.EventArgs)
 
     ''' <summary>
+    ''' 通常のイベントの引数を使用したメソッド実行用デリゲート
+    ''' </summary>
+    ''' <param name="e">イベント引数</param>
+    ''' <remarks></remarks>
+    Public Delegate Sub FormActionOnEventCallback(ByVal e As System.EventArgs)
+
+    ''' <summary>
     ''' フォームの処理にて実行する処理を変わりに実行するためのインタフェース
     ''' </summary>
     ''' <remarks></remarks>
@@ -110,6 +117,14 @@ Namespace Win
         ''' <param name="cmd">実行するメソッド</param>
         ''' <remarks></remarks>
         Overloads Sub ExecuteNoCursor(ByVal cmd As FormActionExecuteCallback)
+
+        ''' <summary>
+        ''' 通常のイベントの引数を使用したメソッド実行(カーソル変更なし)
+        ''' </summary>
+        ''' <param name="cmd">実行するメソッド</param>
+        ''' <param name="e">イベント引数</param>
+        ''' <remarks></remarks>
+        Overloads Sub ExecuteNoCursor(ByVal cmd As FormActionOnEventCallback, ByVal e As System.EventArgs)
 
         ''' <summary>
         ''' 通常のイベントの引数を使用したメソッド実行(カーソル変更なし)

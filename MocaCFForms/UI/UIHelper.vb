@@ -26,8 +26,8 @@ Namespace Win
                 msg = String.Format(message, msgargs)
             End If
 
-            'Return MessageBox.Show(msg, CoreSettings.Instance.Title, buttons, MessageBoxIcon.Question, defaultButton)
-            Return MessageForm.Show(msg, CoreSettings.Instance.Title, MessageType.Question, buttons, defaultButton)
+            Return MessageBox.Show(msg, CoreSettings.Instance.Title, buttons, MessageBoxIcon.Question, defaultButton)
+            'Return MessageForm.Show(msg, CoreSettings.Instance.Title, MessageType.Question, buttons, defaultButton)
         End Function
 
         ''' <summary>
@@ -51,18 +51,20 @@ Namespace Win
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function ShowErrorMessageBox(ByVal message As String, Optional ByVal msgargs() As String = Nothing, Optional ByVal buttons As MessageBoxButtons = MessageBoxButtons.OK) As DialogResult
-            Dim msg As String = message
+            Dim msg As String = My.Resources.Messages.S000 & vbCrLf & vbCrLf & message
+            'Dim msg As String = message
             If msgargs IsNot Nothing Then
-                msg = String.Format(message, msgargs)
+                msg = String.Format(msg, msgargs)
             End If
 
-            Return MessageForm.Show(msg, My.Resources.Messages.S000, MessageType.Error, buttons, MessageBoxDefaultButton.Button1)
+            Return MessageBox.Show(msg, CoreSettings.Instance.Title, buttons, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1)
+            'Return MessageForm.Show(msg, My.Resources.Messages.S000, MessageType.Error, buttons, MessageBoxDefaultButton.Button1)
         End Function
 
         Public Shared Function ShowErrorMessageBox2(ByVal message As String, Optional ByVal msgargs() As String = Nothing, Optional ByVal buttons As MessageBoxButtons = MessageBoxButtons.OK) As DialogResult
             Dim msg As String = My.Resources.Messages.S000 & vbCrLf & vbCrLf & message
             If msgargs IsNot Nothing Then
-                msg = String.Format(message, msgargs)
+                msg = String.Format(msg, msgargs)
             End If
 
             Return MessageBox.Show(msg, CoreSettings.Instance.Title, buttons, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1)
@@ -82,8 +84,8 @@ Namespace Win
                 msg = String.Format(message, msgargs)
             End If
 
-            'Return MessageBox.Show(msg, CoreSettings.Instance.Title, buttons, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
-            Return MessageForm.Show(msg, CoreSettings.Instance.Title, MessageType.Warning, buttons, MessageBoxDefaultButton.Button1)
+            Return MessageBox.Show(msg, CoreSettings.Instance.Title, buttons, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
+            'Return MessageForm.Show(msg, CoreSettings.Instance.Title, MessageType.Warning, buttons, MessageBoxDefaultButton.Button1)
         End Function
 
         Public Shared Function ShowInformationMessageBox(ByVal message As String, Optional ByVal msgargs() As String = Nothing, Optional ByVal buttons As MessageBoxButtons = MessageBoxButtons.OK) As DialogResult
@@ -92,8 +94,8 @@ Namespace Win
                 msg = String.Format(message, msgargs)
             End If
 
-            'Return MessageBox.Show(msg, CoreSettings.Instance.Title, buttons, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
-            Return MessageForm.Show(msg, CoreSettings.Instance.Title, MessageType.Information, buttons, MessageBoxDefaultButton.Button1)
+            Return MessageBox.Show(msg, CoreSettings.Instance.Title, buttons, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
+            'Return MessageForm.Show(msg, CoreSettings.Instance.Title, MessageType.Information, buttons, MessageBoxDefaultButton.Button1)
         End Function
 
 #End Region
@@ -166,6 +168,12 @@ Namespace Win
 
 #End Region
 
+        ''' <summary>
+        ''' 親となるフォームを検索
+        ''' </summary>
+        ''' <param name="ctrl"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
         Public Shared Function FindForm(ByVal ctrl As Control) As Form
             If TypeOf ctrl Is Form Then
                 Return ctrl
@@ -179,6 +187,52 @@ Namespace Win
             Return FindForm(parent)
         End Function
 
+        ''' <summary>
+        ''' 現在フォーカスされているコントロール
+        ''' </summary>
+        ''' <param name="parent"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' http://blogs.msdn.com/b/bluecollar/archive/2007/01/30/using-a-hardware-key-to-tab-through-controls.aspx
+        ''' </remarks>
+        Public Shared Function GetFocusedControl(ByVal parent As Control) As Control
+            If parent.Focused Then
+                Return parent
+            End If
+
+            For Each ctrl As Control In parent.Controls
+                If Not ctrl.TabStop Then
+                    Continue For
+                End If
+                Dim focusedControl As Control = GetFocusedControl(ctrl)
+                If focusedControl IsNot Nothing Then
+                    Return focusedControl
+                End If
+            Next
+            Return Nothing
+        End Function
+
+        Public Shared Function GetFocusedControl(ByVal controls As IEnumerable(Of Control)) As Control
+            For Each ctrl As Control In controls
+                If ctrl.Focused Then
+                    Return ctrl
+                End If
+            Next
+            Return Nothing
+        End Function
+
+#Region " Draw "
+
+        ''' <summary>
+        ''' 文字を描画
+        ''' </summary>
+        ''' <param name="text"></param>
+        ''' <param name="font"></param>
+        ''' <param name="brush"></param>
+        ''' <param name="g"></param>
+        ''' <param name="rec"></param>
+        ''' <param name="align"></param>
+        ''' <remarks></remarks>
         Public Shared Sub DrawString( _
                 ByVal text As String, ByVal font As Font, _
                 ByVal brush As SolidBrush, ByVal g As Graphics, _
@@ -243,11 +297,33 @@ Namespace Win
                 lineRec.Y = firstLineTop
                 'lineRec.Height = (lineSize.Height * ii) + firstLineTop
                 lineRec.Height = lineSize.Height * (ii + 1)
-                Debug.WriteLine(String.Format("{0},{1},{2},{3},{4},{5}", lineRec.X, lineRec.Y, lineRec.Width, lineRec.Height, lineRec.Right, lineRec.Bottom))
                 g.DrawString(strArray(ii).Replace(vbCr, ""), font, brush, lineRec, format)
             Next
         End Sub
 
+        ''' <summary>
+        ''' 塗りつぶし四角形を描画
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="backColor"></param>
+        ''' <param name="clientRectangle"></param>
+        ''' <remarks></remarks>
+        Public Shared Sub FillRectangle(ByVal g As Graphics, _
+                                        ByVal backColor As Color, _
+                                        ByVal clientRectangle As Rectangle)
+            Using brush As New SolidBrush(backColor)
+                g.FillRectangle(brush, clientRectangle)
+            End Using
+        End Sub
+
+        ''' <summary>
+        ''' 四角形を描画
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="borderWidth"></param>
+        ''' <param name="borderColor"></param>
+        ''' <param name="clientRectangle"></param>
+        ''' <remarks></remarks>
         Public Shared Sub DrawRectangle(ByVal g As Graphics, _
                                         ByVal borderWidth As Integer, _
                                         ByVal borderColor As Color, _
@@ -259,11 +335,13 @@ Namespace Win
             Dim pen As New Pen(borderColor, borderWidth)
 
             g.DrawRectangle(pen, _
-                             clientRectangle.X + borderWidth, _
-                             clientRectangle.Y + borderWidth, _
-                             clientRectangle.Width - borderWidth * 2, _
-                             clientRectangle.Height - borderWidth * 2)
+                             clientRectangle.X, _
+                             clientRectangle.Y, _
+                             clientRectangle.Width - borderWidth, _
+                             clientRectangle.Height - borderWidth)
         End Sub
+
+#End Region
 
     End Class
 

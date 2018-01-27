@@ -22,11 +22,13 @@ Partial Class TestForm
         Me.ComboBoxEx1 = New Moca.Win.ComboBoxEx
         Me.TextBoxEx1 = New Moca.Win.TextBoxEx
         Me.ActionButton1 = New Moca.Win.ActionButton
+        Me.ActionButton2 = New Moca.Win.ActionButton
         Me.pnlContents.SuspendLayout()
         Me.SuspendLayout()
         '
         'pnlContents
         '
+        Me.pnlContents.Controls.Add(Me.ActionButton2)
         Me.pnlContents.Controls.Add(Me.ComboBoxEx1)
         Me.pnlContents.Controls.Add(Me.TextBoxEx1)
         Me.pnlContents.Controls.Add(Me.ActionButton1)
@@ -55,6 +57,18 @@ Partial Class TestForm
         Me.ActionButton1.Size = New System.Drawing.Size(168, 59)
         Me.ActionButton1.TabIndex = 1
         Me.ActionButton1.Text = "ActionButton1"
+        Me.ActionButton1.UpdateCheck = False
+        Me.ActionButton1.UpdateCheckCaption = Nothing
+        '
+        'ActionButton2
+        '
+        Me.ActionButton2.Location = New System.Drawing.Point(35, 6)
+        Me.ActionButton2.Name = "ActionButton2"
+        Me.ActionButton2.Size = New System.Drawing.Size(168, 59)
+        Me.ActionButton2.TabIndex = 3
+        Me.ActionButton2.Text = "Process List"
+        Me.ActionButton2.UpdateCheck = False
+        Me.ActionButton2.UpdateCheckCaption = Nothing
         '
         'TestForm
         '
@@ -70,5 +84,6 @@ Partial Class TestForm
     Friend WithEvents ComboBoxEx1 As Moca.Win.ComboBoxEx
     Friend WithEvents TextBoxEx1 As Moca.Win.TextBoxEx
     Friend WithEvents ActionButton1 As Moca.Win.ActionButton
+    Friend WithEvents ActionButton2 As Moca.Win.ActionButton
 
 End Class

@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Declare.vb" />
+    <Compile Include="Core\ProcessEntry32.vb">
+    </Compile>
     <Compile Include="Core\ThreadStatus.vb" />
     <Compile Include="Db\Attr\ColumnAttribute.vb" />
     <Compile Include="Db\DaoBase.vb" />

@@ -31,7 +31,7 @@
               </DbSource>
             </MainSource>
             <Mappings>
-              <Mapping SourceColumn="Date" DataSetColumn="Date" />
+              <Mapping SourceColumn="Date" DataSetColumn="LogDate" />
               <Mapping SourceColumn="Thread" DataSetColumn="Thread" />
               <Mapping SourceColumn="Level" DataSetColumn="Level" />
               <Mapping SourceColumn="Message" DataSetColumn="Message" />
@@ -47,10 +47,10 @@
   <xs:element name="DemoHTDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DemoHTDataSet" msprop:Generator_DataSetName="DemoHTDataSet" msprop:EnableTableAdapterManager="False">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="log4net" msprop:Generator_UserTableName="log4net" msprop:Generator_RowDeletedName="log4netRowDeleted" msprop:Generator_TableClassName="log4netDataTable" msprop:Generator_RowChangedName="log4netRowChanged" msprop:Generator_RowClassName="log4netRow" msprop:Generator_RowChangingName="log4netRowChanging" msprop:Generator_RowEvArgName="log4netRowChangeEvent" msprop:Generator_RowEvHandlerName="log4netRowChangeEventHandler" msprop:Generator_TablePropName="log4net" msprop:Generator_TableVarName="tablelog4net" msprop:Generator_RowDeletingName="log4netRowDeleting">
+        <xs:element name="log4net" msprop:Generator_UserTableName="log4net" msprop:Generator_RowDeletedName="log4netRowDeleted" msprop:Generator_RowChangedName="log4netRowChanged" msprop:Generator_RowClassName="log4netRow" msprop:Generator_RowChangingName="log4netRowChanging" msprop:Generator_RowEvArgName="log4netRowChangeEvent" msprop:Generator_RowEvHandlerName="log4netRowChangeEventHandler" msprop:Generator_TableClassName="log4netDataTable" msprop:Generator_TableVarName="tablelog4net" msprop:Generator_RowDeletingName="log4netRowDeleting" msprop:Generator_TablePropName="log4net">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Date" msprop:Generator_UserColumnName="Date" msprop:Generator_ColumnPropNameInRow="_Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInTable="DateColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="LogDate" msprop:Generator_UserColumnName="LogDate" msprop:Generator_ColumnPropNameInRow="LogDate" msprop:Generator_ColumnVarNameInTable="columnLogDate" msprop:Generator_ColumnPropNameInTable="LogDateColumn" type="xs:dateTime" minOccurs="0" />
               <xs:element name="Thread" msprop:Generator_UserColumnName="Thread" msprop:Generator_ColumnPropNameInRow="Thread" msprop:Generator_ColumnVarNameInTable="columnThread" msprop:Generator_ColumnPropNameInTable="ThreadColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">

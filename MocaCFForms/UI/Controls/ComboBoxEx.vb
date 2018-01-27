@@ -22,6 +22,9 @@ Namespace Win
         Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal msg As UInteger, ByVal wParam As Integer, ByVal lParam As Integer) As Integer
         End Function
 
+        ''' <summary>フォームの処理にて実行する処理を変わりに実行する</summary>
+        Private _action As IFormAction
+
 #End Region
 
 #Region " コンストラクタ "
@@ -40,6 +43,34 @@ Namespace Win
 
 #End Region
 
+#Region " Property "
+
+        ''' <summary>
+        ''' フォームの処理にて実行する処理を変わりに実行する
+        ''' </summary>
+        ''' <returns></returns>
+        Protected ReadOnly Property Action() As IFormAction
+            Get
+                If _action Is Nothing Then
+                    Dim frm As CoreForm = TryCast(UIHelper.FindForm(Me), CoreForm)
+                    _action = frm.action
+                End If
+                Return _action
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' フォームの処理にて実行する処理を変わりに実行するオブジェクト有無
+        ''' </summary>
+        ''' <returns></returns>
+        Protected ReadOnly Property haveAction() As Boolean
+            Get
+                Return Not (Action Is Nothing)
+            End Get
+        End Property
+
+#End Region
+
 #Region " Overrides "
 
         ''' <summary>
@@ -54,6 +85,14 @@ Namespace Win
             End If
 
             MyBase.OnKeyDown(e)
+        End Sub
+
+        Protected Overrides Sub OnSelectedValueChanged(ByVal e As System.EventArgs)
+            If haveAction Then
+                Action.ExecuteNoCursor(AddressOf MyBase.OnSelectedValueChanged, e)
+            Else
+                MyBase.OnSelectedValueChanged(e)
+            End If
         End Sub
 
 #End Region

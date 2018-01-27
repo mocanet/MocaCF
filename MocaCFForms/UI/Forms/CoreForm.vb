@@ -65,6 +65,10 @@ Namespace Win
         Protected Overrides Sub OnActivated(ByVal e As System.EventArgs)
             MyBase.OnActivated(e)
 
+            If UIHelper.DesignMode(Me) Then
+                Return
+            End If
+
             If Not _isLoaded Then
                 Return
             End If
@@ -83,10 +87,20 @@ Namespace Win
         End Sub
 
         Protected Overrides Sub OnClosing(ByVal e As System.ComponentModel.CancelEventArgs)
+            If UIHelper.DesignMode(Me) Then
+                MyBase.OnClosing(e)
+                Return
+            End If
+
             action.Execute(AddressOf _actionClosing, Me, e)
         End Sub
 
         Protected Overrides Sub OnClosed(ByVal e As System.EventArgs)
+            If UIHelper.DesignMode(Me) Then
+                MyBase.OnClosed(e)
+                Return
+            End If
+
             action.Execute(AddressOf _actionClosed, Me, e)
         End Sub
 
@@ -112,6 +126,11 @@ Namespace Win
 
         Private Sub CoreForm_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
             Debug.WriteLine(String.Format("KeyCode={0}, KeyData={1}, KeyValue={2}", e.KeyCode, e.KeyData, e.KeyValue))
+
+            'If e.KeyCode = Keys.None Then
+            '    e.Handled = True
+            '    Return
+            'End If
 
             If _shortCutKeys.ContainsKey(e.KeyCode) Then
                 Dim btn As ActionButton
@@ -361,9 +380,11 @@ Namespace Win
             End If
 
             If TypeOf ctrl Is Button Then
-                _setControlStyle(ctrl)
+                _setControlStyleBtn(ctrl)
             End If
             If TypeOf ctrl Is Label Then
+            End If
+            If TypeOf ctrl Is MLabel Then
             End If
             If TypeOf ctrl Is TextBoxBase Then
             End If
@@ -377,7 +398,7 @@ Namespace Win
             End If
         End Sub
 
-        Private Sub _setControlStyle(ByVal btn As Button)
+        Private Sub _setControlStyleBtn(ByVal btn As Button)
             Dim backColor As Color
             Dim foreColor As Color
 

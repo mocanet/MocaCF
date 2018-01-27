@@ -30,10 +30,12 @@ Namespace Win
             Me.pnlFooter = New System.Windows.Forms.Panel
             Me.btnOK = New System.Windows.Forms.Button
             Me.btnCancel = New System.Windows.Forms.Button
+            Me.Panel1 = New System.Windows.Forms.Panel
             Me.pnlMain.SuspendLayout()
             Me.pnlBody.SuspendLayout()
             Me.pnlHeader.SuspendLayout()
             Me.pnlFooter.SuspendLayout()
+            Me.Panel1.SuspendLayout()
             Me.SuspendLayout()
             '
             'pnlMain
@@ -54,7 +56,7 @@ Namespace Win
             Me.pnlBody.Dock = System.Windows.Forms.DockStyle.Fill
             Me.pnlBody.Location = New System.Drawing.Point(0, 54)
             Me.pnlBody.Name = "pnlBody"
-            Me.pnlBody.Size = New System.Drawing.Size(225, 109)
+            Me.pnlBody.Size = New System.Drawing.Size(225, 106)
             '
             'lblMessage
             '
@@ -64,8 +66,7 @@ Namespace Win
             Me.lblMessage.Dock = System.Windows.Forms.DockStyle.Fill
             Me.lblMessage.Location = New System.Drawing.Point(0, 0)
             Me.lblMessage.Name = "lblMessage"
-            Me.lblMessage.Size = New System.Drawing.Size(225, 109)
-            Me.lblMessage.TabIndex = 0
+            Me.lblMessage.Size = New System.Drawing.Size(225, 106)
             Me.lblMessage.Text = "内容"
             Me.lblMessage.TextAlign = Moca.TextAlignment.MiddleCenter
             '
@@ -94,12 +95,11 @@ Namespace Win
             'pnlFooter
             '
             Me.pnlFooter.BackColor = System.Drawing.Color.FromArgb(CType(CType(230, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(230, Byte), Integer))
-            Me.pnlFooter.Controls.Add(Me.btnOK)
-            Me.pnlFooter.Controls.Add(Me.btnCancel)
+            Me.pnlFooter.Controls.Add(Me.Panel1)
             Me.pnlFooter.Dock = System.Windows.Forms.DockStyle.Bottom
-            Me.pnlFooter.Location = New System.Drawing.Point(0, 163)
+            Me.pnlFooter.Location = New System.Drawing.Point(0, 160)
             Me.pnlFooter.Name = "pnlFooter"
-            Me.pnlFooter.Size = New System.Drawing.Size(225, 35)
+            Me.pnlFooter.Size = New System.Drawing.Size(225, 38)
             '
             'btnOK
             '
@@ -107,7 +107,7 @@ Namespace Win
             Me.btnOK.Dock = System.Windows.Forms.DockStyle.Left
             Me.btnOK.Location = New System.Drawing.Point(0, 0)
             Me.btnOK.Name = "btnOK"
-            Me.btnOK.Size = New System.Drawing.Size(100, 35)
+            Me.btnOK.Size = New System.Drawing.Size(100, 32)
             Me.btnOK.TabIndex = 2
             Me.btnOK.Text = "はい(&Y)"
             '
@@ -115,11 +115,20 @@ Namespace Win
             '
             Me.btnCancel.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
             Me.btnCancel.Dock = System.Windows.Forms.DockStyle.Right
-            Me.btnCancel.Location = New System.Drawing.Point(125, 0)
+            Me.btnCancel.Location = New System.Drawing.Point(121, 0)
             Me.btnCancel.Name = "btnCancel"
-            Me.btnCancel.Size = New System.Drawing.Size(100, 35)
+            Me.btnCancel.Size = New System.Drawing.Size(100, 32)
             Me.btnCancel.TabIndex = 3
             Me.btnCancel.Text = "いいえ(&N)"
+            '
+            'Panel1
+            '
+            Me.Panel1.BackColor = System.Drawing.Color.FromArgb(CType(CType(230, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(230, Byte), Integer))
+            Me.Panel1.Controls.Add(Me.btnCancel)
+            Me.Panel1.Controls.Add(Me.btnOK)
+            Me.Panel1.Location = New System.Drawing.Point(2, 1)
+            Me.Panel1.Name = "Panel1"
+            Me.Panel1.Size = New System.Drawing.Size(221, 32)
             '
             'MessageForm
             '
@@ -137,6 +146,7 @@ Namespace Win
             Me.pnlBody.ResumeLayout(False)
             Me.pnlHeader.ResumeLayout(False)
             Me.pnlFooter.ResumeLayout(False)
+            Me.Panel1.ResumeLayout(False)
             Me.ResumeLayout(False)
 
         End Sub
@@ -148,6 +158,7 @@ Namespace Win
         Friend WithEvents pnlHeader As System.Windows.Forms.Panel
         Friend WithEvents lblMessage As Moca.Win.MLabel
         Friend WithEvents lblHeader As Moca.Win.MLabel
+        Friend WithEvents Panel1 As System.Windows.Forms.Panel
 
     End Class
 

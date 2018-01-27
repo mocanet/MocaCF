@@ -22,7 +22,7 @@ Namespace Win
         'コード エディタを使って変更しないでください。
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
-            Me.pnlContents = New System.Windows.Forms.Panel
+            Me.pnlContents = New PanelEx
             Me.SuspendLayout()
             '
             'pnlContents
@@ -46,7 +46,7 @@ Namespace Win
             Me.ResumeLayout(False)
 
         End Sub
-        Protected Friend WithEvents pnlContents As System.Windows.Forms.Panel
+        Protected Friend WithEvents pnlContents As PanelEx
     End Class
 
 End Namespace

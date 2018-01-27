@@ -159,8 +159,8 @@ Namespace Win
         ''' </summary>
         ''' <param name="row"></param>
         Public Sub SetEntity(ByVal row As TRow)
-            _ImportRow.Invoke(_dt, New Object() {row})
             _dataBinder.BindSrc.RemoveAt(0)
+            _ImportRow.Invoke(_dt, New Object() {row})
             AcceptChanges()
         End Sub
 
@@ -310,6 +310,11 @@ Namespace Win
             Return _binding(ctrl, False)
         End Function
 
+        Public Overloads Function Binding(ByVal ctrl As TextBox, ByVal dataMember As String, ByVal dataSourceNullValue As Object) As BindComponentContext
+            _dataBinder.DataBinding(ctrl, dataMember, dataSourceNullValue, Nothing, String.Empty)
+            Return _binding(ctrl, False)
+        End Function
+
 #End Region
 #Region " Label "
 
@@ -327,10 +332,31 @@ Namespace Win
         End Function
 
 #End Region
+#Region " MLabel "
+
+        Public Overloads Function Binding(ByVal ctrl As MLabel, ByVal dataMember As String) As BindComponentContext
+            Return Binding(ctrl, dataMember, String.Empty)
+        End Function
+
+        Public Overloads Function Binding(ByVal ctrl As MLabel, ByVal dataMember As String, ByVal formatString As String) As BindComponentContext
+            Return Binding(ctrl, dataMember, formatString, Nothing)
+        End Function
+
+        Public Overloads Function Binding(ByVal ctrl As MLabel, ByVal dataMember As String, ByVal formatString As String, ByVal dataSourceNullValue As Object) As BindComponentContext
+            _dataBinder.DataBinding(ctrl, dataMember, dataSourceNullValue, Nothing, formatString)
+            Return _binding(ctrl, False)
+        End Function
+
+#End Region
 #Region " ComboBox "
 
         Public Overloads Function Binding(ByVal ctrl As ComboBox, ByVal dataMember As String) As BindComponentContext
             _dataBinder.DataBinding(ctrl, dataMember)
+            Return _binding(ctrl, False)
+        End Function
+
+        Public Overloads Function Binding(ByVal ctrl As ComboBox, ByVal dataMember As String, ByVal dataSourceNullValue As Object) As BindComponentContext
+            _dataBinder.DataBinding(ctrl, dataMember, dataSourceNullValue)
             Return _binding(ctrl, False)
         End Function
 

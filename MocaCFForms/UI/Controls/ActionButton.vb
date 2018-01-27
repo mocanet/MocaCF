@@ -55,6 +55,16 @@ Namespace Win
 
 #Region " Overrides "
 
+        Public Shadows Property Enabled() As Boolean
+            Get
+                Return MyBase.Enabled
+            End Get
+            Set(ByVal value As Boolean)
+                MyBase.Enabled = value
+                _setEnabled(value)
+            End Set
+        End Property
+
         Protected Overrides Sub OnClick(ByVal e As System.EventArgs)
             If haveAction Then
                 Action.Execute(AddressOf _actionClick, Me, e, UpdateCheck, UpdateCheckCaption)
@@ -65,35 +75,13 @@ Namespace Win
 
         Protected Overrides Sub OnGotFocus(ByVal e As System.EventArgs)
             MyBase.OnGotFocus(e)
-            _drawRect(Me, True)
-
-            _isEnabledChange = True
-            Dim hsv As HsvColor
-            hsv = HsvColor.FromRgb(_backColor)
-            BackColor = HsvColor.ToRgb(hsv.H, hsv.S, hsv.V - 0.3)
+            DrawRect(Me, True)
         End Sub
 
         Protected Overrides Sub OnLostFocus(ByVal e As System.EventArgs)
             MyBase.OnLostFocus(e)
-            _drawRect(Me, False)
-
-            BackColor = _backColor
+            DrawRect(Me, False)
         End Sub
-
-        Protected Overrides Sub OnEnabledChanged(ByVal e As System.EventArgs)
-            MyBase.OnEnabledChanged(e)
-            Try
-                _isEnabledChange = True
-                If Enabled Then
-                    BackColor = _backColor
-                Else
-                    BackColor = CoreSettings.Instance.DesignValue(DesignSettingKeys.BackColor)
-                End If
-            Finally
-                _isEnabledChange = False
-            End Try
-        End Sub
-        Private _isEnabledChange As Boolean
 
         Public Overrides Property BackColor() As System.Drawing.Color
             Get
@@ -217,7 +205,7 @@ Namespace Win
             MyBase.OnClick(e)
         End Sub
 
-        Private Sub _drawRect(ByVal control As Control, ByVal drawmode As Boolean)
+        Friend Sub DrawRect(ByVal control As Control, ByVal drawmode As Boolean)
             Dim bkcolor As Color
             Dim parent As Control = control.Parent
 
@@ -225,11 +213,12 @@ Namespace Win
                 bkcolor = parent.BackColor
 
                 If drawmode Then
-                    '0, 192, 0
-                    '0, 0, 255
-                    Using pen As Pen = New Pen(Color.FromArgb(0, 0, 255), 3)
+                    Using pen As Pen = New Pen(CoreSettings.Instance.DesignValue(DesignSettingKeys.FocusColor), 2)
                         Dim rect As Rectangle
-                        rect = New Rectangle(control.Location.X, control.Location.Y, control.Size.Width, Math.Min(control.Size.Height, (control.ClientSize.Height + 1)))
+                        rect = New Rectangle(control.Location.X - 1, _
+                                             control.Location.Y - 1, _
+                                             control.Size.Width + 1, _
+                                             Math.Min(control.Size.Height + 1, (control.ClientSize.Height + 2)))
                         graph.DrawRectangle(pen, rect)
                     End Using
                 Else
@@ -241,6 +230,20 @@ Namespace Win
         Private Sub _actionClick(ByVal sender As Object, ByVal e As System.EventArgs)
             Dim args As New ActionValidatingEventArgs
             _onClick(e, args)
+        End Sub
+
+        Private _isEnabledChange As Boolean
+        Private Sub _setEnabled(ByVal value As Boolean)
+            Try
+                _isEnabledChange = True
+                If value Then
+                    BackColor = _backColor
+                Else
+                    BackColor = CoreSettings.Instance.DesignValue(DesignSettingKeys.BackColor)
+                End If
+            Finally
+                _isEnabledChange = False
+            End Try
         End Sub
 
 #End Region

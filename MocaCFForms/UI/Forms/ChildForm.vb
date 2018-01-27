@@ -77,7 +77,8 @@ Namespace Win
                 _ownerMainForm = DirectCast(_ownerForm, MainForm)
                 setControlStyle(pnlContents.Controls)
 
-                OnStartup(EventArgs.Empty)
+                action.ExecuteNoCursor(AddressOf OnStartup, EventArgs.Empty)
+                'OnStartup(EventArgs.Empty)
             End Set
         End Property
         Private _ownerForm As CoreForm
@@ -191,6 +192,19 @@ Namespace Win
         End Sub
 
 #Region " ShowChildForm "
+
+        ''' <summary>
+        ''' 画面切替表示
+        ''' </summary>
+        ''' <param name="typ"></param>
+        ''' <remarks></remarks>
+        Public Overloads Sub SwitchChildForm(ByVal typ As Type)
+            If typ Is Nothing Then
+                Return
+            End If
+
+            ownerMainForm.SwitchChildForm(typ)
+        End Sub
 
         ''' <summary>
         ''' 画面表示

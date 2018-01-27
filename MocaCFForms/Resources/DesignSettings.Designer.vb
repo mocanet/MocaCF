@@ -215,6 +215,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  173,7,74 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend Shared ReadOnly Property FocusColor() As String
+            Get
+                Return ResourceManager.GetString("FocusColor", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  0, 120, 215 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend Shared ReadOnly Property FormBorderColor() As String

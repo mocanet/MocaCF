@@ -159,6 +159,25 @@ Namespace Win
         ''' 通常のイベントの引数を使用したメソッド実行
         ''' </summary>
         ''' <param name="cmd"></param>
+        ''' <param name="e"></param>
+        ''' <remarks></remarks>
+        Public Overloads Sub ExecuteNoCursor1(ByVal cmd As FormActionOnEventCallback, ByVal e As System.EventArgs) Implements IFormAction.ExecuteNoCursor
+            Try
+                SuspendLayout()
+
+                cmd(e)
+            Catch ex As Exception
+                UIHelper.ShowErrorMessageBox(My.Resources.Messages.E000, ex)
+                _mylog.Error(ex)
+            Finally
+                ResumeLayout()
+            End Try
+        End Sub
+
+        ''' <summary>
+        ''' 通常のイベントの引数を使用したメソッド実行
+        ''' </summary>
+        ''' <param name="cmd"></param>
         ''' <param name="sender"></param>
         ''' <param name="e"></param>
         ''' <remarks></remarks>

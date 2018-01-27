@@ -82,6 +82,12 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Feature\ProcessListForm.Designer.vb">
+      <DependentUpon>ProcessListForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Feature\ProcessListForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Feature\Test2Form.Designer.vb">
       <DependentUpon>Test2Form.vb</DependentUpon>
     </Compile>
@@ -153,6 +159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Feature\MenuForm.resx">
       <DependentUpon>MenuForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Feature\ProcessListForm.resx">
+      <DependentUpon>ProcessListForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Feature\Test2Form.resx">
       <DependentUpon>Test2Form.vb</DependentUpon>

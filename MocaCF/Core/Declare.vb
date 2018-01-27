@@ -14,7 +14,6 @@ End Enum
 #Region " Enum DesignSettingKeys "
 
 Public Enum DesignSettingKeys As Integer
-
     PrimaryTextColor
     BackColor
 
@@ -52,6 +51,7 @@ Public Enum DesignSettingKeys As Integer
     QuestionBackColor
     QuestionForeColor
 
+    FocusColor
 End Enum
 
 #End Region

@@ -18,9 +18,11 @@ Namespace Win
 
         Private _childStack As Stack(Of ChildForm)
 
-        Private _DefaultChildForm As ChildForm
+        Private _LoginFormType As Type
 
-        Private _menuForm As ChildForm
+        Private _DefaultChildFormType As Type
+
+        Private _DefaultChildForm As ChildForm
 
 #End Region
 
@@ -41,11 +43,9 @@ Namespace Win
                 Return
             End If
 
-            TopMost = True
-
             _childStack = New Stack(Of ChildForm)
-            _LoginForm = Nothing
-            _DefaultChildForm = Nothing
+            _LoginFormType = Nothing
+            _DefaultChildFormType = Nothing
 
             CoreSettings.Instance.MainForm = Me
 
@@ -71,30 +71,34 @@ Namespace Win
         End Property
         Private _LimitterMaximumSize As Boolean
 
-        Protected Overridable ReadOnly Property LoginForm() As Type
-            Get
-                Return _LoginForm
-            End Get
-        End Property
-        Private _LoginForm As Type
-
         ''' <summary>
-        ''' メニュー画面ではなく指定した画面を表示する場合にオーバーライドする
+        ''' ログイン画面を指定する場合にオーバーライドする
         ''' </summary>
+        ''' <value></value>
         ''' <returns></returns>
-        Protected Overridable ReadOnly Property DefaultChildForm() As ChildForm
+        ''' <remarks></remarks>
+        Protected Overridable ReadOnly Property LoginFormType() As Type
             Get
-                Return _DefaultChildForm
+                Return _LoginFormType
             End Get
         End Property
 
         ''' <summary>
-        ''' メニュー画面を表示する場合にオーバーライドする
+        ''' メニュー画面等のトップ画面を指定する場合にオーバーライドする
         ''' </summary>
         ''' <returns></returns>
-        Protected Overridable ReadOnly Property MenuForm() As ChildForm
+        Protected Overridable ReadOnly Property DefaultChildFormType() As Type
             Get
-                Return _menuForm
+                Return _DefaultChildFormType
+            End Get
+        End Property
+
+        Protected ReadOnly Property defaultChildForm() As ChildForm
+            Get
+                If _defaultChildForm Is Nothing Then
+                    _defaultChildForm = ClassUtil.NewInstance(DefaultChildFormType)
+                End If
+                Return _defaultChildForm
             End Get
         End Property
 
@@ -115,14 +119,8 @@ Namespace Win
             _actionLoad()
 
             Show()
-            Application.DoEvents()
 
             pnlMain.Focus()
-            If DefaultChildForm IsNot Nothing Then
-                If DefaultChildForm.StartFocusControl IsNot Nothing Then
-                    DefaultChildForm.StartFocusControl.Focus()
-                End If
-            End If
 
             MyBase.OnLoad(e)
         End Sub
@@ -139,17 +137,15 @@ Namespace Win
         End Sub
 
         Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
-            MyBase.OnKeyDown(e)
-
             If ShortCutKeys.ContainsKey(e.KeyCode) Then
                 AlertMessage1.Clear()
-                Return
             End If
             If e.KeyCode = Keys.Return Then
                 ' Return時
                 AlertMessage1.Clear()
-                Return
             End If
+
+            MyBase.OnKeyDown(e)
         End Sub
 
 #End Region
@@ -165,8 +161,8 @@ Namespace Win
 
             Me.pnlMain.BackColor = CoreSettings.Instance.DesignValue(DesignSettingKeys.ContentColor)
 
-            If LoginForm IsNot Nothing Then
-                ShowChildForm(LoginForm)
+            If LoginFormType IsNot Nothing Then
+                ShowChildForm(LoginFormType)
                 Return
             End If
             _refresh(Nothing)
@@ -216,7 +212,34 @@ Namespace Win
             _childBack()
         End Sub
 
+#Region " Show "
+
 #Region " ShowChildForm "
+
+        Public Overloads Sub SwitchChildForm(ByVal typ As Type)
+            If _childStack.Count.Equals(0) Then
+                Return
+            End If
+            Dim child As ChildForm = _childStack.Peek()
+            If child Is Nothing Then
+                Return
+            End If
+
+            ' 編集あり？
+            If child.IsUpdate Then
+                ' 確認
+                If UIHelper.ShowQuestionMessageBox(My.Resources.Messages.Q003, New String() {"前の画面へ移動"}) = DialogResult.No Then
+                    Return
+                End If
+            End If
+
+            _childStack.Pop()
+
+            ShowChildForm(typ)
+
+            child.Close2()
+            child = Nothing
+        End Sub
 
         ''' <summary>
         ''' 画面表示
@@ -242,13 +265,6 @@ Namespace Win
         Public Overloads Sub ShowChildForm(ByVal typ As Type, ByVal value As Object)
             Dim frm As ChildForm
 
-            'frm = ClassUtil.NewInstance(typ)
-
-            'If value IsNot Nothing Then
-            '    Dim args As New ChildFormArgs(value, Me)
-            '    frm.SetArgs(args)
-            'End If
-
             If value IsNot Nothing Then
                 Dim args As New ChildFormArgs(value, Me)
                 frm = ClassUtil.NewInstance(typ, New Object() {args})
@@ -267,13 +283,6 @@ Namespace Win
         ''' <remarks></remarks>
         Public Overloads Sub ShowChildForm(ByVal command As CommandType, ByVal typ As Type, ByVal value As Object)
             Dim frm As ChildForm
-
-            'frm = ClassUtil.NewInstance(typ)
-
-            'If Not command.Equals(CommandType.None) Or value IsNot Nothing Then
-            '    Dim args As New ChildFormArgs(command, value, Me)
-            '    frm.SetArgs(args)
-            'End If
 
             If Not command.Equals(CommandType.None) Or value IsNot Nothing Then
                 Dim args As New ChildFormArgs(command, value, Me)
@@ -315,7 +324,8 @@ Namespace Win
                 child.Height = Me.pnlMain.Height
                 Me.Text = String.Format(CoreSettings.Instance.WindowTitle, CoreSettings.Instance.Title, child.Text)
                 Me.ShortCutKeys = child.ShortCutKeys
-                pnlMain.Controls.Add(child.pnlContents)
+                'pnlMain.Controls.Add(child.pnlContents)
+                child.pnlContents.Parent = pnlMain
                 child.OwnerForm = Me
 
                 _childStack.Push(child)
@@ -347,7 +357,8 @@ Namespace Win
                     DefaultChildForm.Width = Me.pnlMain.Width
                     DefaultChildForm.Height = Me.pnlMain.Height
                     DefaultChildForm.OwnerForm = Me
-                    pnlMain.Controls.Add(DefaultChildForm.pnlContents)
+                    'pnlMain.Controls.Add(DefaultChildForm.pnlContents)
+                    DefaultChildForm.pnlContents.Parent = pnlMain
                 End If
                 Me.Text = String.Format(CoreSettings.Instance.WindowTitle, CoreSettings.Instance.Title, DefaultChildForm.Text)
                 Me.ShortCutKeys = DefaultChildForm.ShortCutKeys
@@ -401,8 +412,8 @@ Namespace Win
                 Me.ShortCutKeys = child.ShortCutKeys
                 child.pnlContents.Visible = True
                 child.pnlContents.BringToFront()
-                child.RefreshContents(beforeChild)
                 child.pnlContents.Focus()
+                child.RefreshContents(beforeChild)
                 Return
             End If
 
@@ -421,6 +432,8 @@ Namespace Win
             End If
             Me.setWindowSize(sz)
         End Sub
+
+#End Region
 
 #End Region
 

@@ -321,6 +321,19 @@ Namespace Win
         End Sub
 
         ''' <summary>
+        ''' MLabel のデータバインディング
+        ''' </summary>
+        ''' <param name="ctrl">Label</param>
+        ''' <param name="dataMember">バインドするデータソースの項目名</param>
+        ''' <param name="dataSourceNullValue">コントロールの値が null 参照 (Visual Basic では Nothing) または空の場合にデータ ソースに格納される値を取得または設定します。 </param>
+        ''' <param name="nullValue">データ ソースに <see cref="DBNull"/> 値が格納されている場合にコントロール プロパティとして設定される <see cref="Object" /> を取得または設定します。</param>
+        ''' <remarks></remarks>
+        Public Sub DataBinding(ByVal ctrl As MLabel, ByVal dataMember As String, Optional ByVal dataSourceNullValue As Object = Nothing, Optional ByVal nullValue As Object = Nothing, Optional ByVal formatString As String = "")
+            '_dataBinding(ctrl, "Text", dataMember, dataSourceNullValue, nullValue, formatString)
+            _dataBinding(ctrl, "Text", dataMember, True, dataSourceNullValue, nullValue, formatString)
+        End Sub
+
+        ''' <summary>
         ''' データバインディングする
         ''' </summary>
         ''' <param name="obj">対象のコントロール</param>

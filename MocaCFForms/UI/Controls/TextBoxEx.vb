@@ -18,6 +18,9 @@ Namespace Win
 
         Private Delegate Sub textChangedCompleteDelegate()
 
+        ''' <summary>フォームの処理にて実行する処理を変わりに実行する</summary>
+        Private _action As IFormAction
+
         Private _bottomBorderColor As Color
         Private _bottomBorder As Label
         Private _TextChangedCompleteDelay As Integer = 0
@@ -132,6 +135,30 @@ Namespace Win
         End Property
         Private _ImeMode As PInvoke.ImeMode
 
+        ''' <summary>
+        ''' フォームの処理にて実行する処理を変わりに実行する
+        ''' </summary>
+        ''' <returns></returns>
+        Protected ReadOnly Property Action() As IFormAction
+            Get
+                If _action Is Nothing Then
+                    Dim frm As CoreForm = TryCast(UIHelper.FindForm(Me), CoreForm)
+                    _action = frm.action
+                End If
+                Return _action
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' フォームの処理にて実行する処理を変わりに実行するオブジェクト有無
+        ''' </summary>
+        ''' <returns></returns>
+        Protected ReadOnly Property haveAction() As Boolean
+            Get
+                Return Not (Action Is Nothing)
+            End Get
+        End Property
+
 #End Region
 
 #Region " Overrides "
@@ -191,7 +218,12 @@ Namespace Win
             If Not TextChangedCompleteDelay.Equals(0) Then
                 If _timer.Enabled Then
                     _timer.Enabled = False
-                    OnTextChangedComplete(EventArgs.Empty)
+
+                    If haveAction Then
+                        Action.ExecuteNoCursor(AddressOf OnTextChangedComplete, EventArgs.Empty)
+                    Else
+                        OnTextChangedComplete(EventArgs.Empty)
+                    End If
                 End If
                 '_timer.Enabled = False
                 'OnTextChangedComplete(EventArgs.Empty)
@@ -233,11 +265,18 @@ Namespace Win
             _timer.Enabled = False
             Dim method As textChangedCompleteDelegate
             method = AddressOf _OnTextChangedComplete
-            BeginInvoke(method)
+            Try
+                BeginInvoke(method)
+            Catch ex As ObjectDisposedException
+            End Try
         End Sub
 
         Private Sub _OnTextChangedComplete()
-            OnTextChangedComplete(EventArgs.Empty)
+            If haveAction Then
+                Action.ExecuteNoCursor(AddressOf OnTextChangedComplete, EventArgs.Empty)
+            Else
+                OnTextChangedComplete(EventArgs.Empty)
+            End If
         End Sub
 
 #End Region
