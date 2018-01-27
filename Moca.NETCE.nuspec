@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>Moca.NETCE</id>
+    <version>1.0.0-beta01</version>
+    <title>Moca.NET CE</title>
+    <authors>MiYABiS</authors>
+    <owners>MiYABiS</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://opensource.org/licenses/MS-PL</licenseUrl>
+    <projectUrl>https://github.com/mocanet/MocaCF</projectUrl>
+    <iconUrl>https://avatars3.githubusercontent.com/u/14543303?s=256</iconUrl>
+    <description>Moca.NET CE</description>
+    <summary>Moca.NET CE</summary>
+    <dependencies>
+      <dependency id="log4net" version="2.0.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="MocaCFForms\bin\Release\MocaCF.dll" target="lib\net35-ce\MocaCF.dll" />
+    <file src="MocaCFForms\bin\Release\MocaCFForms.dll" target="lib\net35-ce\MocaCFForms.dll" />
+  </files>
+</package>
