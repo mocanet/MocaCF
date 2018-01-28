@@ -4,9 +4,17 @@
 [![NuGet](https://img.shields.io/nuget/v/Moca.NETCE.svg)](https://www.nuget.org/packages/Moca.NETCE/)
 [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Moca.NETCE.svg)](https://www.nuget.org/packages/Moca.NETCE/)
 
+.NET Compact Framework Business application library
 
-License
-=======
+
+## How to get
+
+URL:https://www.nuget.org/packages/Moca.NETCE/
+```
+PM> Install-Package Moca.NETCE
+```
+
+## License
 
 Microsoft Public License (MS-PL)
 
