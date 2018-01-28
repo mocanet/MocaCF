@@ -86,16 +86,19 @@
       <DependentUpon>ProcessListForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Feature\ProcessListForm.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Feature\Test2Form.Designer.vb">
       <DependentUpon>Test2Form.vb</DependentUpon>
     </Compile>
     <Compile Include="Feature\Test2Form.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Feature\Test3Form.Designer.vb">
       <DependentUpon>Test3Form.vb</DependentUpon>
     </Compile>
     <Compile Include="Feature\Test3Form.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Models\DemoHTDataSet.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -106,6 +109,7 @@
       <DependentUpon>DemoHTForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Feature\DemoHTForm.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Feature\Form1.vb">
       <SubType>Form</SubType>
@@ -118,16 +122,19 @@
       <DependentUpon>LoginForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Feature\LoginForm.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Feature\MenuForm.Designer.vb">
       <DependentUpon>MenuForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Feature\MenuForm.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Feature\TestForm.Designer.vb">
       <DependentUpon>TestForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Feature\TestForm.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Models\DemoHTDataSet.vb">
       <DependentUpon>DemoHTDataSet.xsd</DependentUpon>
